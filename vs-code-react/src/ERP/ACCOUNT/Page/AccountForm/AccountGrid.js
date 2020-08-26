@@ -1,3 +1,4 @@
+//********************************** 2020-08-26 정대현 추가 **********************************
 import React,{useState} from 'react';
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
@@ -6,11 +7,8 @@ import "ag-grid-community/dist/styles/ag-theme-balham.css";
 import {makeStyles,
  } from "@material-ui/core";
 
-const AccountGrid = ({ headInfo, setSlipNo , today , setFlag }) => {
-    
-
-//const { startDate, endDate, slipStatus } = headInfo;  // props로 받아온 headInfo의 상태 값을 비구조 할당.
-const data ='';
+const AccountGrid = ({ accountInfo }) => {
+const data = accountInfo;
 
 //========================== 그리드 객체 준비 ==========================
 const [positionGridApi, setPositionGridApi] = useState();
@@ -20,11 +18,12 @@ const onGridReady = params => {
 };   // 여긴 그냥 ag Grid의 api를 사용하기 위해 선언. 그리고 이곳은 ag Grid 초기화 시 실행된다.
 
 
+
 //========================== 그리드내용 ==========================
 const accountColumnDefs = [
-    { headerName: "계정과목코드", field: "accountInnerCode", width: 150 },
-    { headerName: "계정과목명", field: "accountName", width: 100 },
-    { headerName: "성격", field: "accountCharacter", width: 100 },
+    { headerName: "계정과목코드", field: "accountInnerCode", width: 80 },
+    { headerName: "계정과목명", field: "accountName", width: 90 },
+    { headerName: "성격", field: "accountCharacter", width: 80 },
 ];
 
 
@@ -33,8 +32,8 @@ return (
     <div
         className={"ag-theme-balham"}
         style={{
-            height: "150px",
-            width: "300px",
+            height: "300px",
+            width: "400px",
             paddingTop: "20px"
         }}
     >

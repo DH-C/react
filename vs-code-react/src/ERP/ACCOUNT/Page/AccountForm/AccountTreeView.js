@@ -1,4 +1,5 @@
-import React from 'react';
+//********************************** 2020-08-26 정대현 추가 **********************************
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -27,7 +28,7 @@ let treeData = {
   leaf : '',
 };
 
-const AccountTreeview = () => {
+const AccountTreeview = ( {setAccountInfo} ) => {
 
   const dispatch = useDispatch();
 
@@ -59,7 +60,7 @@ const AccountTreeview = () => {
       accountInnerCode : '',
       parentAccountInnerCode : '',
       leaf : '',};
-    if(element.accountName=="특수계정과목"){
+    if(element.accountName=="특수계정과목" ||element.accountName=="사용자설정계정과목"  || element.leaf=="1"){
       return false;
     }
     if(element.accountLevel==="0"){
@@ -87,23 +88,63 @@ const AccountTreeview = () => {
 
     if(element.accountLevel==="1"){
       treeData.children.push(innerData);
-    }
-    if(element.accountLevel==="2"){
+    }else if(element.accountLevel==="2" || element.accountLevel==="3"){
       treeData.children.map((e) => {
         if(e.accountInnerCode===element.parentAccountInnerCode){
           e.children.push(innerData);
+        }else{
+          e.children.map((ele) => {
+            if(ele.accountInnerCode===element.parentAccountInnerCode){
+              ele.children.push(innerData);
+            }
+          })
         }
       })
     }
+    
   });
-
-  console.log(treeData);
-
+  //console.log(treeData);
   const renderTree = (node) => (
     <TreeItem key={node.accountInnerCode} nodeId={node.accountInnerCode} label={node.accountName}>
       {Array.isArray(node.children) ? node.children.map((node) => renderTree(node)) : null}
     </TreeItem>
+
   );
+  
+  // const onSelect = (event, value) => {
+  //   let arr = value.split('-');
+  //   let firstV = arr[0];
+  //   let secondV = arr[1];
+  //   let cal = secondV - firstV;
+  //   if(cal < 100){
+  //     setAccountInnerCode(value);
+  //     setAccountData(data);
+  //   }
+  // }
+  
+  let accArr = [];
+
+  const onSelect = (event, value) => {
+    let arr = value.split('-');
+    let firstV = arr[0];
+    let secondV = arr[1];
+    let cal = secondV - firstV;
+    if(cal < 100){
+      data.filter((element,index) => {
+        if(element.leaf!="1"){
+          return false;
+        }
+        if(element.parentAccountInnerCode===value){
+          let accountInfo = {};
+          accountInfo.accountInnerCode = element.accountInnerCode;
+          accountInfo.accountName = element.accountName;
+          accountInfo.accountCharacter = element.accountCharacter;
+          accArr.push(accountInfo);
+        }
+      })
+    }
+    setAccountInfo(accArr);
+  }
 
 
   return (
@@ -113,6 +154,7 @@ const AccountTreeview = () => {
         className={classes.root}
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
+        onNodeSelect={onSelect}
       >
       {renderTree(treeData)}
       </TreeView>
