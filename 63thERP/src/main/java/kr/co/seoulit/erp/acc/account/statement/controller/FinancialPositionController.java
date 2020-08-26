@@ -18,10 +18,26 @@ public class FinancialPositionController {
     @Autowired
 	private StatementServiceFacade statementServiceFacade;
   
-    @RequestMapping(value="/statement/getFinancialPosition", method = RequestMethod.GET)
+    @RequestMapping(value="/statement/getFinancialPosition")
     public HashMap<String, Object> getFinancialPosition(@RequestParam("toDate")String toDate){
-    
-     return statementServiceFacade.getFinancialPosition(toDate);
+    System.out.println("============재무상태표 컨트롤러시작===============");
+    HashMap<String, Object> param =new HashMap<>();
+	try {			
+		
+		param = statementServiceFacade.getFinancialPosition(toDate);
+		
+		System.out.println("재무상태표 프로시저리턴값::::::::::::::::::::: "+param.get("RESULT"));
+		System.out.println("재무상태표 프로시저리턴값::::::::::::::::::::: "+param.get("ERROR_CODE"));
+		System.out.println("재무상태표 프로시저리턴값::::::::::::::::::::: "+param.get("ERROR_MSG"));
+		
+		param.put("financialList", param.get("RESULT"));
+        param.put("errorCode", param.get("ERROR_CODE"));
+        param.put("errorMsg", param.get("ERROR_MSG"));			
+		} catch(Exception e){
+			param.put("errorCode", -1);
+			param.put("errorMsg", e.getMessage());
+	           }
+      return param;
     }
     
     
