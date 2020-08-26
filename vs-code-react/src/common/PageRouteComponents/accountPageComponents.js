@@ -6,6 +6,7 @@ export { default as ApprovalManager } from "ERP/ACCOUNT/Page/ApprovalManager/App
 export {default as AccountForm} from 'ERP/ACCOUNT/Page/AccountForm/AccountForm';   // 계정과목관리
 // 거 래 처 원 장 =========================================================================================================================
 
+export { default as AccountLedger } from "ERP/ACCOUNT/Page/AccountLedger/AccountLedger"; // 계정별 원장  ======  2020-08-25 조편백  추가 =======
 export { default as FinancialStatements } from "ERP/ACCOUNT/Page/FinancialStatements/FinancialStatements"; // 재무상태표
 export { default as TotalTrialBalance } from "ERP/ACCOUNT/Page/TotalTrialBalance/TotalTrialBalance"; // 합계잔액시산표
 export { default as IncomeStatement } from "ERP/ACCOUNT/Page/IncomeStatement/IncomeStatement"; //손익계산서 ======  2020-08-24 조편백  추가 =======

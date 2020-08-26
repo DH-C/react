@@ -216,6 +216,23 @@ function* searchDetailTrial(action) {
   }
 }
 //********************************** 2020-08-24 김진호 끝 **********************************
+//================================= 2020-08-25 계정별원장 조편백  시작 =====================================
+function* searchAccountInfo(action) {
+  console.log("계정별원장 Saga 실행 : " + JSON.stringify(action));
+  try {
+    const { data } = yield accountApi.get("/account/getLedgerbyAccountInfo", {
+      params: {
+        startDate: action.params.startDate,
+        endDate: action.params.endDate,
+        accountCode: action.params.accountCode,
+      },
+    });
+    yield put({ type: types.SEARCH_ACCOUN_TINFO_SUCCESS, data });
+  } catch (error) {
+    yield put({ type: types.SEARCH_ACCOUN_TINFO_FAILURE, error });
+  }
+}
+//================================== 2020-08-25 계정별원장 조편백  끝 =====================================
 
 export default function* AccSaga() {
   yield takeLatest(types.SEARCH_PERIOD_NO_REQUEST, searchPeriodNo);
@@ -233,4 +250,5 @@ export default function* AccSaga() {
   yield takeEvery(types.SEARCH_INCOME_REQUEST, searchIncomeList); //<------------ 2020-08-24 손익계산서 조편백
   yield takeLatest(types.SEARCH_CASHJOURNAL_REQUEST, searchCashJournalList); //*********** 2020-08-24 정대현 추가 **********
   yield takeLatest(types.SEARCH_DETAILTRIAL_REQUEST, searchDetailTrial); // 일(월)계표 2020-08-24 김진호 추가
+  yield takeEvery(types.SEARCH_ACCOUN_TINFO_REQUEST, searchAccountInfo); // <=======  2020-08-25 계정별원장 조편백  =============
 }

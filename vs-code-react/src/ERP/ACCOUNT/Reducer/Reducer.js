@@ -210,6 +210,25 @@ const AccReducer = (state = initialState, action) => {
         error: action.error,
       };
     //********************************** 2020-08-24 김진호 끝 **********************************
+    //========================================= 2020-08-25 계정별원장 조편백  시작 =============================
+    case types.SEARCH_ACCOUN_TINFO_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case types.SEARCH_ACCOUN_TINFO_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        data: action.data.gridRowJson,
+      };
+    case types.SEARCH_ACCOUN_TINFO_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.error,
+      };
+    //========================================= 2020-08-25 계정별원장 조편백  끝  ================================
     default:
       return { ...state };
   }

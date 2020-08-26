@@ -115,3 +115,11 @@ export const SEARCH_DETAILTRIAL_SUCCESS =
 export const SEARCH_DETAILTRIAL_FAILURE =
   "C:/hoprj/vs-code-react/62-react/src/ERP/ACCOUNT/Reducer/SEARCH_DETAILTRIAL_FAILURE-Reducer";
 //********************************** 2020-08-24 김진호 끝 **********************************
+//========================================= 2020-08-25 계정별원장 조편백  시작 ==============================================
+export const SEARCH_ACCOUN_TINFO_REQUEST = "SEARCH_ACCOUN_TINFO_REQUEST_SAGA";
+export const SEARCH_ACCOUN_TINFO_SUCCESS = "SEARCH_ACCOUN_TINFO_SUCCESS_REDUCER";
+export const SEARCH_ACCOUN_TINFO_FAILURE = "SEARCH_ACCOUN_TINFO_FAILURE_REDUCER";
+//========================================= 2020-08-25 계정별원장 조편백  끝 ==============================================
+
+
+
