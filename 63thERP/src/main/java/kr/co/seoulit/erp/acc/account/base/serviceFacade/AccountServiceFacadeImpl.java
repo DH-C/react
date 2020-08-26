@@ -1,6 +1,7 @@
 package kr.co.seoulit.erp.acc.account.base.serviceFacade;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,5 +67,12 @@ public class AccountServiceFacadeImpl implements AccountServiceFacade{
 	public List<AccountCodeBean> getAccountList() {
 		return accountApplicationService.getAccountList();
 	}
+    //=====================================  2020-08-25 계정별 원장 조편백   시작 ====================================
+	@Override
+	public HashMap<String, Object> getLedgerbyAccountInfo(String accountCode, String startDate, String endDate) {
+		
+		return accountApplicationService.getLedgerbyAccountInfo(accountCode, startDate,endDate);
+	}
+	//=====================================  2020-08-25 계정별 원장 조편백   끝 =======================================
 
 }

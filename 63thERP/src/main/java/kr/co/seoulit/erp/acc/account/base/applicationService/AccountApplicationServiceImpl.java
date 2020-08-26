@@ -1,6 +1,7 @@
 package kr.co.seoulit.erp.acc.account.base.applicationService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,20 @@ public class AccountApplicationServiceImpl implements AccountApplicationService 
 	public List<AccountCodeBean> getAccountList() {
 		return accountDAO.getAccountList();
 	}
-
+	
+    //=====================================  2020-08-25 계정별 원장 조편백   시작 ====================================
+	@Override
+	public HashMap<String, Object> getLedgerbyAccountInfo(String accountCode, String startDate, String endDate) {
+		System.out.println("///////계정별원장 서비스임플 시작 ////// ");
+		HashMap<String,Object> param=new HashMap<>();
+		param.put("accountCode", accountCode);
+		param.put("startDate", startDate);
+		param.put("endDate", endDate);
+		
+		 accountDAO.getLedgerbyAccountInfo(param);
+		 System.out.println("========================계정별원장 프로시저리턴===================== "+param);
+		 return param;
+	}
+	 //=====================================  2020-08-25 계정별 원장 조편백   끝  ====================================
 
 }

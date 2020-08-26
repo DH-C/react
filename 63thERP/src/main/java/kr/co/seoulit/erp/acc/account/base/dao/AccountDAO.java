@@ -1,6 +1,7 @@
 package kr.co.seoulit.erp.acc.account.base.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -27,4 +28,8 @@ public interface AccountDAO {
     ArrayList<AccountControlBean> selectAccountControlList(String accountCode);
 
 	public List<AccountCodeBean> getAccountList();
+
+    //=====================================  2020-08-25 계정별 원장 조편백   시작 ====================================
+    public HashMap<String, Object> getLedgerbyAccountInfo(HashMap<String,Object> param);//계정별원장 
+    //=====================================  2020-08-25 계정별 원장 조편백   끝  ====================================
 }

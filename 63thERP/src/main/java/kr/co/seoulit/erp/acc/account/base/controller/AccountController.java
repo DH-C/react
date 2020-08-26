@@ -106,4 +106,33 @@ public class AccountController{
 	   String periodNo = accountServiceFacade.findPeriodNo(toDay);
 	   return periodNo ;
    }
+   //=====================================  2020-08-25 계정별 원장 조편백   시작 ==================================== 
+
+   @RequestMapping(value="/account/getLedgerbyAccountInfo")
+   public HashMap<String, Object> getLedgerbyAccountInfo(
+   											@RequestParam("accountCode") String accountCode ,
+   											@RequestParam("startDate") String startDate,
+   											@RequestParam("endDate") String endDate) {
+   	
+    System.out.println("======================계정코드 기간조회======================");
+    System.out.println("========accountCode========== : "+accountCode);
+    System.out.println("========accountCode========== : "+startDate);
+    System.out.println("========accountCode========== : "+endDate);
+    
+    	HashMap<String,Object> param=new HashMap<>();
+    	try {
+    		
+   	param = accountServiceFacade.getLedgerbyAccountInfo(accountCode, startDate, endDate);
+   	
+   	param.put("gridRowJson", param.get("RESULT"));
+   	param.put("errorCode", param.get("ERROR_CODE"));
+   	param.put("errorMsg", param.get("ERROR_MSG"));
+   	
+    	}catch (Exception e) {
+   		param.put("errorCode",-1);
+   		param.put("errorMsg",e.getMessage());
+   	}
+   	return param; 
+      }
+   //=====================================  2020-08-25 계정별 원장 조편백   끝 ==================================== 
 }
