@@ -4,9 +4,6 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
 
-import {makeStyles,
- } from "@material-ui/core";
-
 const AccountGrid = ({ accountInfo }) => {
 const data = accountInfo;
 
@@ -21,7 +18,7 @@ const onGridReady = params => {
 
 //========================== 그리드내용 ==========================
 const accountColumnDefs = [
-    { headerName: "계정과목코드", field: "accountInnerCode", width: 80 },
+    { headerName: "계정과목코드", field: "accountInnerCode", width: 80},
     { headerName: "계정과목명", field: "accountName", width: 90 },
     { headerName: "성격", field: "accountCharacter", width: 80 },
 ];
@@ -32,9 +29,10 @@ return (
     <div
         className={"ag-theme-balham"}
         style={{
-            height: "300px",
-            width: "400px",
-            paddingTop: "20px"
+            height: "500px",
+            width: "430px",
+            paddingTop: "50px",
+            paddingLeft: "30px",
         }}
     >
         <AgGridReact
