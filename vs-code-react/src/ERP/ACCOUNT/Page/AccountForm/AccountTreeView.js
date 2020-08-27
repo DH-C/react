@@ -1,5 +1,5 @@
 //********************************** 2020-08-26 정대현 추가 **********************************
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -8,7 +8,6 @@ import TreeItem from '@material-ui/lab/TreeItem';
 import {useDispatch, useSelector} from "react-redux";
 
 import * as types from 'ERP/ACCOUNT/ActionType/ActionType';
-import SearchButton from './SearchButton';
 
 const useStyles = makeStyles({
   root: {
@@ -28,14 +27,14 @@ let treeData = {
   leaf : '',
 };
 
-const AccountTreeview = ( {setAccountInfo} ) => {
+const AccountTreeview = ( {setAccountInfo, setAccountName} ) => {
 
   const dispatch = useDispatch();
 
-  const getData = async e => {
-    dispatch( { type : types.SEARCH_ACCOUNT_REQUEST, 
-    });
-  };
+  useEffect(() => {  
+      dispatch( { type : types.SEARCH_ACCOUNT_REQUEST, 
+      });
+  },[]);
 
   const data = useSelector(({AccReducer}) => AccReducer.accountList , []);
   const classes = useStyles();
@@ -101,7 +100,6 @@ const AccountTreeview = ( {setAccountInfo} ) => {
         }
       })
     }
-    
   });
   //console.log(treeData);
   const renderTree = (node) => (
@@ -111,17 +109,6 @@ const AccountTreeview = ( {setAccountInfo} ) => {
 
   );
   
-  // const onSelect = (event, value) => {
-  //   let arr = value.split('-');
-  //   let firstV = arr[0];
-  //   let secondV = arr[1];
-  //   let cal = secondV - firstV;
-  //   if(cal < 100){
-  //     setAccountInnerCode(value);
-  //     setAccountData(data);
-  //   }
-  // }
-  
   let accArr = [];
 
   const onSelect = (event, value) => {
@@ -129,9 +116,14 @@ const AccountTreeview = ( {setAccountInfo} ) => {
     let firstV = arr[0];
     let secondV = arr[1];
     let cal = secondV - firstV;
+    let aName = '';
     if(cal < 100){
       data.filter((element,index) => {
-        if(element.leaf!="1"){
+        if(element.accountInnerCode===value 
+            && (element.accountLevel==="3"||element.accountLevel==="2")){
+          aName = element.accountName;
+        }
+        if(element.leaf!="1" || element.accountName==="사용자설정계정과목"){
           return false;
         }
         if(element.parentAccountInnerCode===value){
@@ -143,17 +135,18 @@ const AccountTreeview = ( {setAccountInfo} ) => {
         }
       })
     }
+    setAccountName(aName);
     setAccountInfo(accArr);
   }
 
 
   return (
     <>
-      <SearchButton getData={getData} />
       <TreeView
         className={classes.root}
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
+        defaultExpanded={[]}
         onNodeSelect={onSelect}
       >
       {renderTree(treeData)}

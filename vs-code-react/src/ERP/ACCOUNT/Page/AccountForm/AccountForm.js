@@ -10,6 +10,8 @@ const AccountForm = () => {
   const classes = useStyles();
 
   const [accountInfo, setAccountInfo] = useState('');
+  const [accountName, setAccountName] = useState('');
+
   return (
  <div className="ui primary segment">
       <AppBar position="sticky">
@@ -23,17 +25,18 @@ const AccountForm = () => {
       <div>
         <div className="tab1">
           <AppBar className={classes.root}>
-            <Tab className={classes.tab} label=" 계정과목 " />
+            <Tab className={classes.tab} label=" 계정 " />
             <br />
             <br />
-            <AccountTreeView setAccountInfo={setAccountInfo} />
+            <AccountTreeView setAccountInfo={setAccountInfo} setAccountName={setAccountName}/>
             <br />
           </AppBar>
         </div>
         <div className="tab2">
           <AppBar className={classes.root1}>
-            <Tab className={classes.tab1} label=" 세부 계정과목 "></Tab>
-            <AccountGrid accountInfo={accountInfo} />
+            <Tab className={classes.tab1} label=" 계정과목 "></Tab>
+            <Tab className={classes.tab2} label= {accountName}></Tab>
+            <AccountGrid accountInfo={accountInfo}/>
           </AppBar>
         </div>
       </div>

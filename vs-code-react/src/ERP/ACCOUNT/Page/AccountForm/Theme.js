@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
     position: "relative",
     left: "-200px", //왼쪽위치
     top: "-20px",
-    height: "900px", //세로
+    height: "850px", //세로
     width: "300px", //가로
     backgroundColor: "white", //배경색상
   },
@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     position: "relative",
     left: "-300px", //왼쪽위치
     top: "-20px",
-    height: "600px",
+    height: "700px",
     width: "450px",
     backgroundColor: "white",
   },
@@ -37,6 +37,15 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "12px",
     color: "white",
     backgroundColor: "#0042ED",
+  },
+  tab2: {
+    position: "relative",
+    left: "150px",
+    top: "35px",
+    borderRadius: "12px",
+    width: "30px", //가로
+    color: "brown",
+    backgroundColor: "#3DB7CC",
   },
 }));
 
