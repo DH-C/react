@@ -11,6 +11,7 @@ import {Paper,
 import SlipHead from 'ERP/ACCOUNT/Page/Slip/SlipHead'
 import AddSlip from 'ERP/ACCOUNT/Page/Slip/AddSlip'
 import AddJournal from 'ERP/ACCOUNT/Page/Slip/AddJournal'
+import JournalDetailGrid from 'ERP/ACCOUNT/Page/Slip/JournalDetailGrid'
 import { useEffect } from 'react';
 
 const Slip = () => {
@@ -107,6 +108,7 @@ const Slip = () => {
                             setBatchArray={setBatchArray}
                             statusFlag={statusFlag}
                 />
+                <JournalDetailGrid />
             </Paper>
         </>
     );
