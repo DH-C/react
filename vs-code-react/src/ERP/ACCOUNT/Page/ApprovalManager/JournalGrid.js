@@ -12,7 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
-const JournalGrid = ({slipNo , flag }) => {
+const JournalGrid = ({slipNo, flag }) => {
 
        // slipNo : SlipGrid 컴포넌트에서 넘어온 slipNo로 journal 조회함.
     // flag : 3개 버튼 활성화.
@@ -81,7 +81,7 @@ const JournalGrid = ({slipNo , flag }) => {
             .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     };   // 몰라. 통화표시 형식임.
 
-
+    
     return (
         <>
             <AppBar position="relative" className={classes.subCategory}>

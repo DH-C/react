@@ -49,6 +49,7 @@ const Slip = () => {
         }
     );
 
+    const [statusFlag, setStatusFlag] = useState('false'); 
     const [slipNo, setSlipNo] = useState(''); 
     // slipNo 는 SlipGrid 컴포넌트에서 그리드 한 줄을 클릭하면
     // JournalGrid 컴포넌트에서 전표번호(slipNo)를 받아서 다시 조회 후 그리드에 표현.
@@ -83,8 +84,9 @@ const Slip = () => {
                 if(cmptSlipNo === '') return;
                 alert(`일련번호 : ${cmptSlipNo} 가 일괄저장되었습니다. `)
             },[cmptSlipNo]
-        )
-
+    )
+    
+    
     return (
         <>
         <h1>전 표 관 리</h1>
@@ -96,12 +98,14 @@ const Slip = () => {
                          flag={slipFlag} 
                          setFlag={setJournalFlag} 
                          setBatchArray={setBatchArray}
+                         setStatusFlag={setStatusFlag}
                 />
                 <AddJournal slipNo={slipNo} 
                             flag={journalflag}
                             setFlag={setSlipFlag}
                             batchArray={batchArray}
                             setBatchArray={setBatchArray}
+                            statusFlag={statusFlag}
                 />
             </Paper>
         </>

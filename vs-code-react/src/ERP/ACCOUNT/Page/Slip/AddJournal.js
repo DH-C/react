@@ -15,8 +15,9 @@ import {useDispatch, useSelector} from "react-redux";
 import AccountDialog from 'ERP/ACCOUNT/Page/Slip/Dialogs/AccountDialog'
 import BalanceDialog from 'ERP/ACCOUNT/Page/Slip/Dialogs/BalanceDialog'
 import CustomerDialog from 'ERP/ACCOUNT/Page/Slip/Dialogs/CustomerDialog'
+import DetailDialog from 'ERP/ACCOUNT/Page/Slip/Dialogs/DetailDialog'
 
-const AddJournal = ({ slipNo, flag , setFlag , batchArray , setBatchArray }) => {
+const AddJournal = ({ slipNo, flag , setFlag , batchArray , setBatchArray , statusFlag }) => {
     // slipNo : SlipGrid 컴포넌트에서 넘어온 slipNo로 journal 조회함.
     // flag : 3개 버튼 활성화.
 
@@ -47,7 +48,7 @@ const AddJournal = ({ slipNo, flag , setFlag , batchArray , setBatchArray }) => 
                 }
             gridApi.forEachNode((n,i)=>{journalData.push(n.data)});
             batchArray.slip[0].journalList = journalData;
-            console.log(batchArray)
+            //console.log(batchArray);
             setBatchArray(batchArray)
             setBreakEffect(false)
             initalBtn()
@@ -122,6 +123,7 @@ const AddJournal = ({ slipNo, flag , setFlag , batchArray , setBatchArray }) => 
     const [balanceValue, setBalanceValue] = useState('');
     const [customerDialogOpen, setCustomerDialogOpen] = useState(false);
     const [customerValue, setCustomerValue] = useState('');
+    const [detailDialogOpen, setDetailDialogOpen] = useState(false);
 
     const handleClose = value => {  // Dialog가 닫힐 때마다 handleClose 이 메서드가 실행됨. value라는 객체를 가지고 있음.
         if (value.division === 'accountDialog') {
@@ -136,6 +138,8 @@ const AddJournal = ({ slipNo, flag , setFlag , batchArray , setBatchArray }) => 
                 setCustomerDialogOpen(false);
             if(value.data === undefined) return;
                 setCustomerValue(value.data);
+        }else if (value.division === 'detailDialog') {
+                setDetailDialogOpen(false);
         }
     };   // value는 어느 그리드인지 구분하기 위해서 division 이라는 key와 Dialog를 클릭했을 때 저장되는 data 라는 key를 가지고 있다.
 
@@ -203,6 +207,15 @@ const AddJournal = ({ slipNo, flag , setFlag , batchArray , setBatchArray }) => 
                 }
         }else if (id.colDef.field === 'summaryComment') {
             console.log("적요")
+        }else if (id.colDef.field === 'journalNo') {
+            if(!statusFlag){
+                return;
+            }
+            dispatch( { type : types.SET_JOURNAL_NO_REQUEST, 
+                journalNo: id.data.journalNo,
+            });
+            setDetailDialogOpen(true);
+            //setNodeId(id.data.journalNo);
         }
     };
 
@@ -306,6 +319,7 @@ const AddJournal = ({ slipNo, flag , setFlag , batchArray , setBatchArray }) => 
             <AccountDialog open={accountDialogOpen} onClose={handleClose} />
             <BalanceDialog open={balanceDialogOpen} onClose={handleClose} />
             <CustomerDialog open={customerDialogOpen} onClose={handleClose} />
+            <DetailDialog open={detailDialogOpen} onClose={handleClose} />
         </div>
     );
 };

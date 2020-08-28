@@ -146,7 +146,6 @@ const AccountTreeview = ( {setAccountInfo, setAccountName} ) => {
         className={classes.root}
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
-        defaultExpanded={[]}
         onNodeSelect={onSelect}
       >
       {renderTree(treeData)}

@@ -15,7 +15,7 @@ import {makeStyles,
     Typography,
   } from "@material-ui/core";
 
-const AddSlip = ({ headInfo, setSlipNo, today, setFlag , flag  , setBatchArray }) => {
+const AddSlip = ({ headInfo, setSlipNo, today, setFlag , flag  , setBatchArray , setStatusFlag}) => {
 
 const classes = useStyles();  // 스타일 먹임
 
@@ -64,7 +64,6 @@ const accountColumnDefs = [
     { headerName: "status", field: 'status', hide: true}
 ];
 
-
 //========================== 조회 ==========================
 const getSlipList = async () => {
     
@@ -86,8 +85,14 @@ const getSlipList = async () => {
         //     }
         // });
         // setData(response.data);
-        setSlipFlag(true)                           
-}
+        setSlipFlag(true);       
+    }
+    if(headInfo.slipStatus==="미결"){  
+        setStatusFlag(false);
+        return;
+    }
+    setStatusFlag(true);
+    
 };   // 전표조회 버튼 클릭했을 때 파라미터 가져가서 전표 데이터 들고와서 setData 해줌.
 
 
@@ -167,7 +172,6 @@ const slipChange = () => {
     const rowData = positionGridApi.getSelectedRows();   // 선택된 row 정보
     setSlipNo(rowData[0].slipNo);  // row 정보의 slipNo를 세팅해라. JournalGrid 컴포넌트로 보내기 위함.
 };
-
 
 //==============================================================================
 return (

@@ -87,12 +87,6 @@ const approvalBtn = async () => {
         }
     );
         dispatch( { type : types.UPDATE_SLIP_REQUEST, params : { approvalData:approvalData } } );
-        // try {
-        //     await Axios.put('http://localhost:8282/acc/account/approveSlip', { approvalData:approvalData });
-        // } catch (error) {
-        //     //console.log(error.response )                  에러는 나는데 넘어가는 값 형식하고 에러문구가 궁금할때 주석풀고 보시면 됩니다. 물론 에러나는곳에서 사용하세요
-        //     //console.log(error.response.request )
-        // }   
         alert(` ${approvalData.length} 건 의 전표가 승인이 되었습니다. `)     
         positionGridApi.updateRowData({ remove: selectedData });  
         setFlag(true);                        

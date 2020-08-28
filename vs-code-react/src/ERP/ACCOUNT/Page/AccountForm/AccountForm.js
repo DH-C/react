@@ -35,7 +35,7 @@ const AccountForm = () => {
         <div className="tab2">
           <AppBar className={classes.root1}>
             <Tab className={classes.tab1} label=" 계정과목 "></Tab>
-            <Tab className={classes.tab2} label= {accountName}></Tab>
+            <Tab className={classes.tab2} label= {accountName || '선택한 계정'}></Tab>
             <AccountGrid accountInfo={accountInfo}/>
           </AppBar>
         </div>

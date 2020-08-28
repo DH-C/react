@@ -11,6 +11,7 @@ const initialState = {
   journalFormList: [],
   error: "",
   periodNo: "",
+  journalDetailList: "",
   slipNo: "",
   cashJournalList: [], //********************************** 2020-08-24 정대현 추가 **********************************
   detailTrialBalanceList: [], //********************************** 2020-08-24 김진호 추가 **********************************
@@ -20,6 +21,16 @@ const initialState = {
 const AccReducer = (state = initialState, action) => {
   switch (action.type) {
     // 기수번호 조회
+    case types.SET_JOURNAL_NO_SUCCESS:
+      return {
+        ...state,
+        journalDetailList: action.data,
+      };
+    case types.SET_JOURNAL_NO_FAILURE:
+      return {
+        ...state,
+        journalDetailList: action.data,
+      };
     case types.SEARCH_PERIOD_NO_SUCCESS:
       return {
         ...state,
@@ -113,7 +124,6 @@ const AccReducer = (state = initialState, action) => {
         ...state,
         error: action.error,
       };
-
     // 전표승인  (실패)
     case types.UPDATE_SLIP_FAILURE:
       return {
