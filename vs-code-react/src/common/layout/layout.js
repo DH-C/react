@@ -62,7 +62,7 @@ function Layout(props) {
             {/* 계정과목 */}
             <Route
               exact
-              path="/app/acc/account/accountForm"
+              path="/app/acc/account/accountForm" 
               component={account.AccountForm}
             />{" "}
             {/* 거래처원장 */}
@@ -72,6 +72,14 @@ function Layout(props) {
               component={account.FinancialStatements}
             />{" "}
             {/* 재무상태표 */}
+             {/*********************************** 2020-08-25 조편백 추가 **********************************/}
+            {/* 계정별원장 */}
+            <Route
+              exact
+              path="/app/acc/statement/AccountLedger"
+              component={account.AccountLedger}
+            />{" "}
+            {/*********************************** 2020-08-25 조편백 끝 ***********************************/}
             {/* 합계잔액시산표 */}
             <Route
               exact

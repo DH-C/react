@@ -155,6 +155,30 @@
           AND C.ACCOUNT_CONTROL_CODE = D.ACCOUNT_CONTROL_CODE
           ]]>   		
     </select>
-  
+  <resultMap type="ledgerByAccountBean" id="ledgerByAccountResult">
+        <result property="carryForward" column="CARRY_FORWARD"/>
+		<result property="reportingDate" column="REPORTING_DATE"/>
+		<result property="accountName" column="ACCOUNT_NAME"/>
+		<result property="leftDebtorPrice" column="LEFT_DEBTOR_PRICE"/>
+		<result property="rightCreditsPrice" column="RIGHT_CREDITS_PRICE"/>
+		<result property="totalPrice" column="TOTAL_PRICE"/>
+		
+	</resultMap>
+	
+	<parameterMap id="getLedgerByAccountInfoParam" type="map">
+        <parameter property="accountCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+        <parameter property="startDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+        <parameter property="endDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ERROR_CODE" jdbcType="DECIMAL" javaType="java.lang.Integer" mode="OUT"/>
+        <parameter property="ERROR_MSG" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+        <parameter property="RESULT" jdbcType="CURSOR" javaType="java.sql.ResultSet" resultMap="ledgerByAccountResult" mode="OUT"/>
+    </parameterMap>
+
+	<select id="getLedgerbyAccountInfo"  parameterMap="getLedgerByAccountInfoParam" statementType="CALLABLE">
+	<![CDATA[
+   			{call P_LEDGERBY_ACCOUNT(?, ?, ?, ?, ?, ?)}
+   									   
+   			]]> 
+	</select>
   
 </mapper>
