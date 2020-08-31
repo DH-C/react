@@ -2,6 +2,7 @@ package kr.co.seoulit.erp.logi.logistics.sales.applicationService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -79,20 +80,17 @@ public class EstimateApplicationServiceImpl implements EstimateApplicationServic
 			int i = 1;
 
 			for (EstimateDetailTO bean : estimateDetailTOList) {
-
+				
 				// 앞서 생성된 견적 일련번호 set
 				bean.setEstimateNo(newEstimateNo);
 
 				// ( 앞에서 생성한 견적일련번호-01 ,02 , 03 .... ) 형식으로 견적상세일련번호 생성
 				newEstimateDetailNo = new StringBuffer();
-
 				newEstimateDetailNo.append(newEstimateNo);
 				newEstimateDetailNo.append("-");
 				newEstimateDetailNo.append(String.format("%02d", i++)); // 두자리 숫자, INSERT 될 때마다 하나씩 증가    ES2020010401-01,ES20200104-02....
-
 				// 생성된 견적상세 일련번호 set
 				bean.setEstimateDetailNo(newEstimateDetailNo.toString());
-
 			}
 
 			// 견적상세List 를 batchListProcess 로 Insert, 결과 맵 반환
@@ -119,7 +117,7 @@ public class EstimateApplicationServiceImpl implements EstimateApplicationServic
 			for (EstimateDetailTO bean : estimateDetailTOList) {
 
 				String status = bean.getStatus();
-
+				
 				// 새로운 견적상세일련번호를 담을 StringBuffer
 				StringBuffer newEstimateDetailNo = new StringBuffer();
 
@@ -131,9 +129,30 @@ public class EstimateApplicationServiceImpl implements EstimateApplicationServic
 					// 기존에 등록된 견적에서 새로운 견적상세를 입력하는 경우 = > 견적상세일련번호가 '저장시 지정됨' => "ES" 로 시작하지 않음
 					if (!bean.getEstimateDetailNo().startsWith("ES")) {
 
-						// 견적상세 Bean 의 견적번호로 등록된 견적상세번호 중 마지막 번호 + 1 을 DAO 로 가져옴 : 새로운 견적상세번호
-						int newNo = estimateDetailDAO.selectEstimateDetailCount(bean.getEstimateNo());
+//************************* 2020.08.27 63기 양지훈 수정 시작 *************************
+//	description:	새로운 견적상세번호 생성 4차 설재영님 소스 가져옴
+//
+//						견적상세 Bean 의 견적번호로 등록된 견적상세번호 중 마지막 번호 + 1 을 DAO 로 가져옴 : 새로운 견적상세번호
+//						int newNo = estimateDetailDAO.selectEstimateDetailCount(bean.getEstimateNo());
+						
+						int newNo;
+						ArrayList<EstimateDetailTO> list = estimateDetailDAO.selectEstimateDetailCount(bean.getEstimateNo());
 
+						TreeSet<Integer> intSet = new TreeSet<>();
+
+						for(EstimateDetailTO listBean: list) {
+							String estimateDetailNo = listBean.getEstimateDetailNo();
+							int no = Integer.parseInt(estimateDetailNo.split("-")[1]);
+							intSet.add(no);
+						}
+
+						if (intSet.isEmpty()) {
+							newNo = 1;
+						} else {
+							newNo = intSet.pollLast() + 1;
+						}
+//************************* 2020.08.27 63기 양지훈 수정 종료 *************************				
+						
 						// 새로운 견적상세일련번호 생성
 						newEstimateDetailNo.append(bean.getEstimateNo());
 						newEstimateDetailNo.append("-");

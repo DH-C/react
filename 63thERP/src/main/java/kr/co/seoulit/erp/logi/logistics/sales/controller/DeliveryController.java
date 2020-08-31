@@ -111,7 +111,8 @@ public class DeliveryController {
 		return modelMap;
 	}
 
-	@RequestMapping("/deliver.do")
+	/*********************³³Ç°°¡´É¼öÁÖÁ¶È¸ Á¶È¸ 2020-08-28 ±èÅÂÀ±***********************/
+	@RequestMapping("/deliver")
 	public ModelMap deliver(HttpServletRequest request, HttpServletResponse response) {
 
 		HashMap<String,Object> resultMap = new HashMap<>();

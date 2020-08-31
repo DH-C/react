@@ -13,16 +13,31 @@
       
  <select id="selectJournalDetailList" parameterType="String" resultMap="journalDetailResult">
   <![CDATA[
-        SELECT J.JOURNAL_DETAIL_NO,
-               J.DESCRIPTION,
-               A.ACCOUNT_CONTROL_TYPE,
-               A.ACCOUNT_CONTROL_NAME,
-               A.DESCRIPTION
-        FROM JOURNAL_DETAIL J,
-             ACCOUNT_CONTROL_DETAIL A
+        SELECT 
+	    	J.JOURNAL_DETAIL_NO,
+            J.DESCRIPTION AS JOURNAL_DESCRIPTION,
+            A.ACCOUNT_CONTROL_TYPE,
+            A.ACCOUNT_CONTROL_NAME,
+            A.DESCRIPTION AS ACCOUNT_CONTROL_DESCRIPTION
+        FROM JOURNAL_DETAIL J, ACCOUNT_CONTROL_DETAIL A
+            WHERE JOURNAL_NO = #{journalNo}
+            AND J.ACCOUNT_CONTROL_CODE = A.ACCOUNT_CONTROL_CODE
+            AND A.ACCOUNT_CONTROL_TYPE IN ('TEXT', 'CALENDAR')
+            				
+        UNION ALL
+            				
+        SELECT 
+        	J.JOURNAL_DETAIL_NO,
+            CAST(C.DETAIL_CODE_NAME AS VARCHAR2(50)) AS JOURNAL_DESCRIPTION,
+            A.ACCOUNT_CONTROL_TYPE,
+            A.ACCOUNT_CONTROL_NAME,
+        	A.DESCRIPTION AS ACCOUNT_CONTROL_DESCRIPTION
+        FROM JOURNAL_DETAIL J, ACCOUNT_CONTROL_DETAIL A, CODE_DETAIL C
         WHERE JOURNAL_NO = #{journalNo}
-          AND J.ACCOUNT_CONTROL_CODE = A.ACCOUNT_CONTROL_CODE
-           ]]> 
+        	AND J.ACCOUNT_CONTROL_CODE = A.ACCOUNT_CONTROL_CODE
+        	AND J.DESCRIPTION = C.DETAIL_CODE(+)
+        	AND A.ACCOUNT_CONTROL_TYPE IN ('SELECT', 'SEARCH')
+      ]]> 
     </select>
     
 <select id="selectJournalDetailName" parameterType="String" resultType="String">
