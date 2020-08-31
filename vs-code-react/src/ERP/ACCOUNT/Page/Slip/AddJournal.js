@@ -116,6 +116,7 @@ const AddJournal = ({ slipNo, flag , setFlag , batchArray , setBatchArray , stat
     // 다시 분개 그리드에 뿌려지는 형태가 되는 것.
     // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
+    const [selValue, setselValue] = useState('');
     const [accountDialogOpen, setAccountDialogOpen] = useState(false);
     const [accountValue, setAccountValue] = useState('');
     const [balanceDialogOpen, setBalanceDialogOpen] = useState(false);
@@ -188,6 +189,7 @@ const AddJournal = ({ slipNo, flag , setFlag , batchArray , setBatchArray , stat
 
     const onCellClicked = id => {   // cell을 클릭했을 때마다 일어나는 event.
         if (id.colDef.field === 'accountName') {   // 계정코드 또는 계정명 cell을 클릭했을 때,
+            setselValue('abcdefg');
             setAccountDialogOpen(true);
             setNodeId(id.rowIndex);  // rowIndex : 몇번째 줄인지 알려줌.
         } else if (id.colDef.field === 'balanceDivision') {   // 대차구분 cell을 클릭했을 때,

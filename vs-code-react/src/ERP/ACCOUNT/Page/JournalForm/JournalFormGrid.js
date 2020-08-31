@@ -7,6 +7,7 @@ import "ag-grid-community/dist/styles/ag-theme-balham.css";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import * as types from "ERP/ACCOUNT/ActionType/ActionType";
+import JournalDetailDialog from "./JournalDetailDialog";
 
 const JournalFormGrid = ({ date }) => {
   const { startDate, endDate } = date;
@@ -15,6 +16,9 @@ const JournalFormGrid = ({ date }) => {
     startDate,
     endDate,
   ]);
+
+  const [journalDetailDialogOpen, setJournalDetailDialogOpen] = useState(false);
+  const [journalNo, setjournalNo] = useState('');
 
   const dispatch = useDispatch();
 
@@ -27,6 +31,21 @@ const JournalFormGrid = ({ date }) => {
         endDate: moment(endDate).format("yyyy-MM-DD"),
       },
     });
+  };
+
+  const cellRenderer = () => {
+    return '<button onclick="">상세보기</button>';
+  };
+
+  const handleClose = () => {
+    setJournalDetailDialogOpen(false);
+  }
+
+  const onCellClicked = id => {
+    if (id.colDef.field === 'showJournalDetail') {
+      setJournalDetailDialogOpen(true);
+      setjournalNo(id.data.journalNo)
+    }
   };
 
   const JournalFoamColumnDefs = [
@@ -43,6 +62,7 @@ const JournalFormGrid = ({ date }) => {
       hide: "true",
     },
     { headerName: "거래처명", field: "customerName", width: 150 },
+    { headerName: "분개상세", field: "showJournalDetail",width:100, cellRenderer: cellRenderer},
   ];
 
   return (
@@ -66,11 +86,13 @@ const JournalFormGrid = ({ date }) => {
           columnDefs={JournalFoamColumnDefs}
           rowData={data}
           rowSelection="single"
+          onCellClicked={onCellClicked}
           onGidReady={event => {
             event.api.sizeColumnsToFit();
           }}
         />
       </div>
+      <JournalDetailDialog journalNo={journalNo} open={journalDetailDialogOpen} onClose={handleClose} />
     </React.Fragment>
   );
 };
