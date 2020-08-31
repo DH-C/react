@@ -41,7 +41,6 @@ const JournalDetailDialog = ({ journalNo, onClose, open }) => {
         { headerName: "항목내용", field: "journalDescription", width: 210 }
     ];
 
-    console.log(journalNo);
     //========================== 계정과목 조회 ==========================
     // 이 Dialog가 한번 랜더링 되면 get 방식으로 뒷단에서 모든 계정과목 data를 들거와서 data에 저장함.
     useEffect(() => {
