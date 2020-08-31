@@ -62,7 +62,7 @@ function Layout(props) {
             {/* 계정과목 */}
             <Route
               exact
-              path="/app/acc/base/accountForm"
+              path="/app/acc/account/accountForm"
               component={account.AccountForm}
             />{" "}
             {/* 거래처원장 */}
