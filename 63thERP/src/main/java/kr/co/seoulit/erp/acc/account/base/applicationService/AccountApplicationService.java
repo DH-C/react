@@ -7,6 +7,7 @@ import java.util.List;
 import kr.co.seoulit.erp.acc.account.base.to.AccountBean;
 import kr.co.seoulit.erp.acc.account.base.to.AccountCodeBean;
 import kr.co.seoulit.erp.acc.account.base.to.AccountControlBean;
+import kr.co.seoulit.erp.acc.account.base.to.CustomerBean;
 
 public interface AccountApplicationService {
 
@@ -29,4 +30,11 @@ public interface AccountApplicationService {
     //=====================================  2020-08-25 계정별 원장 조편백   시작 ====================================
     public HashMap<String,Object> getLedgerbyAccountInfo(String accountCode, String startDate, String endDate);
     //=====================================  2020-08-25 계정별 원장 조편백   끝  ====================================
+    
+    //=====================================  2020-08-31 거래처관리 조편백   시작 ====================================
+    public List<CustomerBean> getCustomerList();
+	//=====================================  2020-08-31 거래처관리 조편백   끝 =======================================
+    //=====================================  2020-08-31 거래처관리 삭제 조편백   시작 ====================================
+    public void deleteNormalCustormer(String deletCustomerCode, String deletCustomerName);
+	//=====================================  2020-08-31 거래처관리 삭제 조편백   끝 =======================================
 }

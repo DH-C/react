@@ -11,6 +11,7 @@ import kr.co.seoulit.erp.acc.account.base.applicationService.AccountApplicationS
 import kr.co.seoulit.erp.acc.account.base.to.AccountBean;
 import kr.co.seoulit.erp.acc.account.base.to.AccountCodeBean;
 import kr.co.seoulit.erp.acc.account.base.to.AccountControlBean;
+import kr.co.seoulit.erp.acc.account.base.to.CustomerBean;
 import kr.co.seoulit.erp.acc.account.base.applicationService.AccountApplicationServiceImpl;
 import kr.co.seoulit.erp.acc.account.base.serviceFacade.AccountServiceFacade;
 import kr.co.seoulit.erp.acc.account.base.serviceFacade.AccountServiceFacadeImpl;
@@ -74,5 +75,18 @@ public class AccountServiceFacadeImpl implements AccountServiceFacade{
 		return accountApplicationService.getLedgerbyAccountInfo(accountCode, startDate,endDate);
 	}
 	//=====================================  2020-08-25 계정별 원장 조편백   끝 =======================================
-
+    //=====================================  2020-08-31 거래처관리 조편백   시작 ======================================
+	@Override
+	public List<CustomerBean> getCustomerList(){
+		
+		return accountApplicationService.getCustomerList();
+	}
+	//=====================================  2020-08-31 거래처관리 조편백   끝 ========================================
+	
+	//=====================================  2020-08-31  거래처관리 삭제 조편백   시작 ======================================
+	@Override
+	public void deleteNormalCustormer(String deletCustomerCode, String deletCustomerName) {
+		
+	//=====================================  2020-08-31  거래처관리 삭제 조편백   끝 =======================================
+	}
 }

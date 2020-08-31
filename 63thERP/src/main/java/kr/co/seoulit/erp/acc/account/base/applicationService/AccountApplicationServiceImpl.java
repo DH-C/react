@@ -7,10 +7,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import kr.co.seoulit.erp.acc.account.base.dao.AccCustomerDAO;
 import kr.co.seoulit.erp.acc.account.base.dao.AccountDAO;
 import kr.co.seoulit.erp.acc.account.base.to.AccountBean;
 import kr.co.seoulit.erp.acc.account.base.to.AccountCodeBean;
 import kr.co.seoulit.erp.acc.account.base.to.AccountControlBean;
+import kr.co.seoulit.erp.acc.account.base.to.CustomerBean;
+import kr.co.seoulit.erp.logi.base.dao.LogiCodeDetailDAO;
+import kr.co.seoulit.erp.logi.base.to.LogiCodeDetailTO;
 import kr.co.seoulit.erp.acc.account.base.applicationService.AccountApplicationService;
 import kr.co.seoulit.erp.acc.account.base.applicationService.AccountApplicationServiceImpl;
 
@@ -19,6 +23,10 @@ public class AccountApplicationServiceImpl implements AccountApplicationService 
 
   @Autowired
     private AccountDAO accountDAO;  
+  @Autowired
+  private AccCustomerDAO customerDAO;   
+  @Autowired
+	private LogiCodeDetailDAO codeDetailDAO;
 
   	
     public void setAccountDAO(AccountDAO accountDAO) {
@@ -76,5 +84,27 @@ public class AccountApplicationServiceImpl implements AccountApplicationService 
 		 return param;
 	}
 	 //=====================================  2020-08-25 계정별 원장 조편백   끝  ====================================
+	
+	 //=====================================  2020-08-31 거래처관리 조편백   시작 ====================================
+		@Override
+		public List<CustomerBean> getCustomerList(){
+			
+			return customerDAO.selectCustomerList();
+		}
+		//=====================================  2020-08-31 거래처관리 조편백   끝 =======================================
+
+	    //=====================================  2020-08-31 거래처관리 삭제 조편백   시작 ====================================
+		
+		@Override
+		public void deleteNormalCustormer(String deletCustomerCode, String deletCustomerName) {		
+			
+			customerDAO.deleteNormalCustormer(deletCustomerCode);
+			
+			LogiCodeDetailTO detailCodeBean=new LogiCodeDetailTO();
+			detailCodeBean.setDetailCode(deletCustomerCode);
+			detailCodeBean.setDetailCodeName(deletCustomerName);
+			codeDetailDAO.deleteDetailCode(detailCodeBean);
+		}
+		//=====================================  2020-08-31 거래처관리 삭제 조편백   끝 =======================================
 
 }

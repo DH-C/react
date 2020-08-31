@@ -155,6 +155,9 @@
           AND C.ACCOUNT_CONTROL_CODE = D.ACCOUNT_CONTROL_CODE
           ]]>   		
     </select>
+    
+     <!--   =====================================  2020-08-25 계정별 원장 조편백   시작 ====================================   -->
+     
   <resultMap type="ledgerByAccountBean" id="ledgerByAccountResult">
         <result property="carryForward" column="CARRY_FORWARD"/>
 		<result property="reportingDate" column="REPORTING_DATE"/>
@@ -180,5 +183,6 @@
    									   
    			]]> 
 	</select>
-  
+   <!--   =====================================  2020-08-25 계정별 원장 조편백   끝  ====================================    -->
+   
 </mapper>
