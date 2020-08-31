@@ -129,5 +129,11 @@ export const SEARCH_ACCOUN_TINFO_SUCCESS = "SEARCH_ACCOUN_TINFO_SUCCESS_REDUCER"
 export const SEARCH_ACCOUN_TINFO_FAILURE = "SEARCH_ACCOUN_TINFO_FAILURE_REDUCER";
 //========================================= 2020-08-25 계정별원장 조편백  끝 ==============================================
 
+//========================================= 2020-08-31 거래처 관리 조편백  시작 ==============================================
+//삭제 
+export const DELETE_NORMAL_ACCOUNT_REQUEST = "src/ERP/ACCOUNT/Saga/Saga";
+export const DELETE_NORMAL_ACCOUNT_SUCCESS = "src/ERP/ACCOUNT/Saga/Saga";
+export const DELETE_NORMAL_ACCOUNT_FAILURE = "src/ERP/ACCOUNT/Saga/Saga";
+//========================================= 2020-08-31 거래처 관리 조편백  끝 ==============================================
 
 

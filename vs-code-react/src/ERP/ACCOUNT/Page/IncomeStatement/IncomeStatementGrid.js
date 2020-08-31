@@ -12,7 +12,8 @@ const IncomeStatementGrid = ({ date }) => {
   // prop 값을 사용하기 편하게 비구조 할당
   const dispatch = useDispatch();
   const { approvalDate } = date;
-  const { data } = useSelector((state) => state.AccReducer);
+  const data = useSelector(({ AccReducer }) => AccReducer.IncomeList, []); //2020-08-31 수정 
+  // const { data } = useSelector((state) => state.AccReducer);
   const { error } = useSelector((state) => state.AccReducer);
   const { isLoading } = useSelector((state) => state.AccReducer);
 

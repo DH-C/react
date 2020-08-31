@@ -250,6 +250,27 @@ function* searchAccountInfo(action) {
 }
 //================================== 2020-08-25 계정별원장 조편백  끝 =====================================
 
+//================================= 2020-08-31 거래처 관리 조편백  시작 ===================================
+function* deleteNormalAccount(action) {
+  console.log("거래처 관리 Saga 실행 : " + JSON.stringify(action.params.deletCustomerCode));
+  try {
+    const { data } = yield accountApi.get("http://localhost:8282/acc/base/deleteNormalCustormer", {
+      params: {
+        deletCustomerCode: action.params.deletCustomerCode,
+        deletCustomerName: action.params.deletCustomerName,
+      },
+    });
+    yield put({ type: types.DELETE_NORMAL_ACCOUNT_SUCCESS, data });
+  } catch (error) {
+    yield put({ type: types.DELETE_NORMAL_ACCOUNT_FAILURE, error });
+  }
+}
+//================================== 2020-08-31 거래처 관리 조편백  끝 =====================================
+
+
+
+
+
 export default function* AccSaga() {
   yield takeLatest(types.SEARCH_PERIOD_NO_REQUEST, searchPeriodNo);
   yield takeLatest(types.SEARCH_SLIP_REQUEST, searchSlipList);
@@ -268,4 +289,5 @@ export default function* AccSaga() {
   yield takeLatest(types.SEARCH_DETAILTRIAL_REQUEST, searchDetailTrial); // 일(월)계표 2020-08-24 김진호 추가
   yield takeEvery(types.SEARCH_ACCOUN_TINFO_REQUEST, searchAccountInfo); // <=======  2020-08-25 계정별원장 조편백  =============
   yield takeEvery(types.SET_JOURNAL_NO_REQUEST, getJournalNo); // //*********** 2020-08-28 정대현 추가 **********
+  yield takeEvery(types.DELETE_NORMAL_ACCOUNT_REQUEST, deleteNormalAccount); // <=======  2020-08-31 거래처관리 조편백  =============
 }

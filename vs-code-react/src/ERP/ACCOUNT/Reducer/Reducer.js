@@ -16,6 +16,8 @@ const initialState = {
   cashJournalList: [], //********************************** 2020-08-24 정대현 추가 **********************************
   detailTrialBalanceList: [], //********************************** 2020-08-24 김진호 추가 **********************************
   gridRowJson: [], //********************************** 2020-08-24 조편백 추가 **********************************
+  IncomeList: [], //********************************** 2020-08-31 조편백 추가 **********************************
+  deleteNormalAccountList: [],//=============================== 2020-08-31 조편백 추가 ======================================
 };
 
 const AccReducer = (state = initialState, action) => {
@@ -185,7 +187,7 @@ const AccReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        data: action.data.gridRowJson,
+        IncomeList: action.data.gridRowJson,
       };
     case types.SEARCH_INCOME_FAILURE:
       return {
@@ -239,6 +241,19 @@ const AccReducer = (state = initialState, action) => {
         error: action.error,
       };
     //========================================= 2020-08-25 계정별원장 조편백  끝  ================================
+      //========================================= 2020-08-28 거래처 관리 조편백  시작 =============================
+
+    case types.DELETE_NORMAL_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        data: action.data.deleteNormalAccountList,
+      };
+    case types.DELETE_NORMAL_ACCOUNT_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+      };
+    //========================================= 2020-08-28 거래처 관리 조편백  끝  ================================
     default:
       return { ...state };
   }

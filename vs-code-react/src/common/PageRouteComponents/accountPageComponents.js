@@ -12,6 +12,7 @@ export { default as IncomeStatement } from "ERP/ACCOUNT/Page/IncomeStatement/Inc
 
 // 전 기 분 손 익 계 산 서 =========================================================================================================================
 
+export { default as WorkplaceManagement } from "ERP/ACCOUNT/Page/WorkplaceManagement/WorkplaceManagement"; //거래처관리 ======  2020-08-31 조편백  추가 =======
 export { default as CashJournal } from "ERP/ACCOUNT/Page/CashJournal/CashJournal"; // 현금출납장  *********** 2020-08-24 정대현 추가 ***********
 
 // 매 입 매 출 장 =========================================================================================================================
