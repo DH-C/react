@@ -13,6 +13,10 @@ import kr.co.seoulit.erp.acc.account.base.to.CustomerBean;
 
 	 List<CustomerBean> selectCustomerList(); //일반거래처 조회 
 
-	void deleteNormalCustormer(String deletCustomerCode); //삭제 
+	void deleteNormalAccount(String customerCode); //삭제 
+
+	void insertNormalAccount(CustomerBean bean); //추가
+
+	void updateNormalAccount(CustomerBean bean); //수정
 	
 }

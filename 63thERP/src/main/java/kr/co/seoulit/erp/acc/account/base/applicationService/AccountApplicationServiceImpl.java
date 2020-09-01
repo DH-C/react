@@ -85,26 +85,57 @@ public class AccountApplicationServiceImpl implements AccountApplicationService 
 	}
 	 //=====================================  2020-08-25 계정별 원장 조편백   끝  ====================================
 	
-	 //=====================================  2020-08-31 거래처관리 조편백   시작 ====================================
+	 //=====================================  2020-09-01 거래처관리  조편백   시작 ====================================
 		@Override
 		public List<CustomerBean> getCustomerList(){
-			
 			return customerDAO.selectCustomerList();
 		}
-		//=====================================  2020-08-31 거래처관리 조편백   끝 =======================================
-
-	    //=====================================  2020-08-31 거래처관리 삭제 조편백   시작 ====================================
 		
 		@Override
-		public void deleteNormalCustormer(String deletCustomerCode, String deletCustomerName) {		
-			
-			customerDAO.deleteNormalCustormer(deletCustomerCode);
+		public void deleteNormalCustormer(String customerCode ) {		
+			System.out.println("1111111111111111111111111111111");
+			customerDAO.deleteNormalAccount(customerCode);
 			
 			LogiCodeDetailTO detailCodeBean=new LogiCodeDetailTO();
-			detailCodeBean.setDetailCode(deletCustomerCode);
-			detailCodeBean.setDetailCodeName(deletCustomerName);
-			codeDetailDAO.deleteDetailCode(detailCodeBean);
+			detailCodeBean.setDetailCode (customerCode);
+			detailCodeBean.setDivisionCodeNo("CL-01");
+			 
+			codeDetailDAO.deleteDetailCode(detailCodeBean); 
 		}
-		//=====================================  2020-08-31 거래처관리 삭제 조편백   끝 =======================================
-
+		
+		@Override
+		public void batchCustormerProcess(HashMap<String, ArrayList<CustomerBean>> customerList) {
+			System.out.println("//////////오긴오나? //////");
+			ArrayList<CustomerBean> batchCustormerList=customerList.get("customerList");
+	 for(CustomerBean bean: batchCustormerList) {
+		System.out.println("////////////////"+bean);	
+		
+			if("insert".equals(bean.getStatus())){
+				System.out.println("////////  insert  ////////"+bean);
+				//CUSTOMER 테이블 
+	 			bean.setWorkplaceCode("BRC-01");
+	 			customerDAO.insertNormalAccount(bean);
+	 			
+	 			//CODE_DETAIL 테이블 
+	 			LogiCodeDetailTO detailCodeTo=new LogiCodeDetailTO();
+	 			detailCodeTo.setDivisionCodeNo("CL-01");
+	 			detailCodeTo.setDetailCode(bean.getCustomerCode());
+	 			detailCodeTo.setDetailCodeName(bean.getCustomerName());
+	 			codeDetailDAO.insertDetailCode(detailCodeTo); 
+	 		
+			}else if("update".equals(bean.getStatus())){ 
+				System.out.println("///////  update /////////"+bean);
+				//CUSTOMER 테이블 
+	 			customerDAO.updateNormalAccount(bean);
+	 			
+	 			//CODE_DETAIL 테이블 
+	 			LogiCodeDetailTO detailCodeTo=new LogiCodeDetailTO();
+	 			detailCodeTo.setDivisionCodeNo("CL-01");
+	 			detailCodeTo.setDetailCode(bean.getCustomerCode());
+	 			detailCodeTo.setDetailCodeName(bean.getCustomerName());
+	 			codeDetailDAO.updateDetailCode(detailCodeTo); 
+		 	  }
+		  }  
+		}
+		//=====================================  2020-09-01 거래처관리  조편백   끝 =======================================
 }

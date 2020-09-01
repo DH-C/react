@@ -75,18 +75,19 @@ public class AccountServiceFacadeImpl implements AccountServiceFacade{
 		return accountApplicationService.getLedgerbyAccountInfo(accountCode, startDate,endDate);
 	}
 	//=====================================  2020-08-25 계정별 원장 조편백   끝 =======================================
-    //=====================================  2020-08-31 거래처관리 조편백   시작 ======================================
+	
+    //=====================================  2020-09-01 거래처관리   조편백   시작 ======================================
 	@Override
 	public List<CustomerBean> getCustomerList(){
-		
 		return accountApplicationService.getCustomerList();
 	}
-	//=====================================  2020-08-31 거래처관리 조편백   끝 ========================================
-	
-	//=====================================  2020-08-31  거래처관리 삭제 조편백   시작 ======================================
 	@Override
-	public void deleteNormalCustormer(String deletCustomerCode, String deletCustomerName) {
-		
-	//=====================================  2020-08-31  거래처관리 삭제 조편백   끝 =======================================
+	public void deleteNormalCustormer(String customerCode ) {
+		 accountApplicationService.deleteNormalCustormer(customerCode);	 
 	}
+	@Override
+	public void batchCustormerProcess(HashMap<String, ArrayList<CustomerBean>> customerList) {
+		accountApplicationService.batchCustormerProcess(customerList);	
+	}
+	//=====================================  2020-09-01 거래처관리  조편백   끝 ========================================
 }

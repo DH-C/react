@@ -24,14 +24,17 @@ public class CustomerBean extends BaseTO{
 	private String customerDetailAddress;
 	private String customerTelNumber;
 	private String customerFaxNumber;
-	private String customerNote;
 	private String accountNumber;
 	private String cardNumber;
+	private String customerNote;
 	private String cardType;
 	private String cardMemberName;
 	private String cardOpenPlace;
-	private String financialInstituteCode;
 	private String financialInstituteName;
-	private String Status;
+	private String financialInstituteCode; 
+	private String status;
+ 
+}  
 
-} 
+
+

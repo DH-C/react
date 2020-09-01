@@ -7,12 +7,12 @@ import NormalAccount from "ERP/ACCOUNT/Page/WorkplaceManagement/NormalAccount";
 import FinanceAccount from "ERP/ACCOUNT/Page/WorkplaceManagement/FinanceAccount";
 import CreditCard from "ERP/ACCOUNT/Page/WorkplaceManagement/CreditCard";
 
-//=============================== 2020-08-31 거래처관리 조편백 ======================================
+//=============================== 2020-09-01 거래처관리 조편백 ======================================
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         //backgroundColor: theme.palette.background.paper,
-        backgroundColor: "#C4DEFF",
+        backgroundColor: "#EBF7FF",
         width: '100%',
         height: '830px'
     },
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function WorkplaceManagement() {
     const classes = useStyles();
-    const [value, setValue] = React.useState('1');
+    const [value, setValue] = React.useState('2');
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

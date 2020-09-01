@@ -31,10 +31,11 @@ public interface AccountApplicationService {
     public HashMap<String,Object> getLedgerbyAccountInfo(String accountCode, String startDate, String endDate);
     //=====================================  2020-08-25 계정별 원장 조편백   끝  ====================================
     
-    //=====================================  2020-08-31 거래처관리 조편백   시작 ====================================
+    //=====================================  2020-09-01 거래처관리  조편백   시작 ====================================
     public List<CustomerBean> getCustomerList();
-	//=====================================  2020-08-31 거래처관리 조편백   끝 =======================================
-    //=====================================  2020-08-31 거래처관리 삭제 조편백   시작 ====================================
-    public void deleteNormalCustormer(String deletCustomerCode, String deletCustomerName);
-	//=====================================  2020-08-31 거래처관리 삭제 조편백   끝 =======================================
+    
+    public void deleteNormalCustormer(String customerCode );
+    
+	public void batchCustormerProcess(HashMap<String, ArrayList<CustomerBean>> customerList);
+	//=====================================  2020-09-01 거래처관리  조편백   끝 =======================================
 }
