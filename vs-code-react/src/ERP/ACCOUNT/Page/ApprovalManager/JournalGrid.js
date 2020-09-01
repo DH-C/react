@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import JournalDetailDialog from './JournalDetailDialog';
 
 const JournalGrid = ({slipNo, flag }) => {
 
@@ -23,6 +24,7 @@ const JournalGrid = ({slipNo, flag }) => {
 
     //========================== 그리드 객체 준비 ==========================
     const [gridApi, setGridApi] = useState();
+    const [journalDetailDialogOpen, setJournalDetailDialogOpen] = useState(false);
 
     const classes = useStyles();
 
@@ -81,7 +83,17 @@ const JournalGrid = ({slipNo, flag }) => {
             .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     };   // 몰라. 통화표시 형식임.
 
-    
+    const onCellClicked = id => {   // cell을 클릭했을 때마다 일어나는 event.
+        setJournalDetailDialogOpen(true);
+        dispatch( { type : types.SET_JOURNAL_NO_REQUEST, 
+            journalNo: id.data.journalNo,
+        });
+    };
+
+    const handleClose = value => {  // Dialog가 닫힐 때마다 handleClose 이 메서드가 실행됨. value라는 객체를 가지고 있음.
+        setJournalDetailDialogOpen(false);
+    }; 
+
     return (
         <>
             <AppBar position="relative" className={classes.subCategory}>
@@ -101,7 +113,9 @@ const JournalGrid = ({slipNo, flag }) => {
                     rowData={data}   // 그리드에 data 뿌림.
                     rowSelection='multiple'  // 여러 줄 선택가능.
                     onGridReady={onGridReady}  // 그리드가 초기화 되면.
+                    onCellClicked={onCellClicked}  // cell 한개 클릭했을 때 발생 event
                 />
+                <JournalDetailDialog open={journalDetailDialogOpen} onClose={handleClose} />
             </div>
         </>
     );

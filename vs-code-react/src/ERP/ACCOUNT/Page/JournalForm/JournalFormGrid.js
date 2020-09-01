@@ -50,7 +50,7 @@ const JournalFormGrid = ({ date }) => {
 
   const JournalFoamColumnDefs = [
     { headerName: "전표번호", field: "slipNo", width: 150 },
-    { headerName: "분개번호", field: "journalNo", width: 150 },
+    { headerName: "분개번호", field: "journalNo", width: 200 },
     { headerName: "구분", field: "balanceDivision", width: 150 },
     { headerName: "개정과목", field: "accountName", width: 150 },
     { headerName: "차변", field: "leftDebtorPrice", width: 150 },

@@ -39,26 +39,11 @@ const AccountTreeview = ( {setAccountInfo, setAccountName} ) => {
   const data = useSelector(({AccReducer}) => AccReducer.accountList , []);
   const classes = useStyles();
   
-
-  const betaData = {
-    accountLevel : '',
-    accountName : '',
-    accountCode : '',
-    accountCharacter : '',
-    accountInnerCode : '',
-    parentAccountInnerCode : '',
-    leaf : '',
-  };
-
   data.filter((element,index) => {
     let innerData = {
-      accountLevel : '',
-      accountName : '',
-      accountCode : '',
-      accountCharacter : '',
-      accountInnerCode : '',
-      parentAccountInnerCode : '',
-      leaf : '',};
+     ...treeData
+    };
+
     if(element.accountName=="특수계정과목" ||element.accountName=="사용자설정계정과목"  || element.leaf=="1"){
       return false;
     }

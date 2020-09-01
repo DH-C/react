@@ -12,11 +12,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from '@material-ui/core/Button';
 import {useDispatch, useSelector} from "react-redux";
 
-import AccountDialog from 'ERP/ACCOUNT/Page/Slip/Dialogs/AccountDialog'
-import BalanceDialog from 'ERP/ACCOUNT/Page/Slip/Dialogs/BalanceDialog'
-import CustomerDialog from 'ERP/ACCOUNT/Page/Slip/Dialogs/CustomerDialog'
+import AccountDialog from './Dialogs/AccountDialog'
+import BalanceDialog from './Dialogs/BalanceDialog'
+import CustomerDialog from './Dialogs/CustomerDialog'
+import JournalDetailDialog from './Dialogs/JournalDetailDialog';
 
-const AddJournal = ({ slipNo, flag , setFlag , batchArray , setBatchArray , statusFlag }) => {
+const AddJournal = ({ slipNo, flag , setFlag , batchArray , setBatchArray}) => {
     // slipNo : SlipGrid 컴포넌트에서 넘어온 slipNo로 journal 조회함.
     // flag : 3개 버튼 활성화.
 
@@ -122,6 +123,7 @@ const AddJournal = ({ slipNo, flag , setFlag , batchArray , setBatchArray , stat
     const [balanceDialogOpen, setBalanceDialogOpen] = useState(false);
     const [balanceValue, setBalanceValue] = useState('');
     const [customerDialogOpen, setCustomerDialogOpen] = useState(false);
+    const [journalDetailDialogOpen, setJournalDetailDialogOpen] = useState(false);
     const [customerValue, setCustomerValue] = useState('');
 
     const handleClose = value => {  // Dialog가 닫힐 때마다 handleClose 이 메서드가 실행됨. value라는 객체를 가지고 있음.
@@ -137,6 +139,8 @@ const AddJournal = ({ slipNo, flag , setFlag , batchArray , setBatchArray , stat
                 setCustomerDialogOpen(false);
             if(value.data === undefined) return;
                 setCustomerValue(value.data);
+        }else if (value.division === 'detailDialog') {
+            setJournalDetailDialogOpen(false);
         }
     };   // value는 어느 그리드인지 구분하기 위해서 division 이라는 key와 Dialog를 클릭했을 때 저장되는 data 라는 key를 가지고 있다.
 
@@ -206,14 +210,11 @@ const AddJournal = ({ slipNo, flag , setFlag , batchArray , setBatchArray , stat
         }else if (id.colDef.field === 'summaryComment') {
             console.log("적요")
         }else if (id.colDef.field === 'journalNo') {
-            if(!statusFlag){
-                return;
-            }
-            dispatch( { type : types.SET_JOURNAL_NO_REQUEST, 
-                journalNo: id.data.journalNo,
-            });
-            //setNodeId(id.data.journalNo);
+            setJournalDetailDialogOpen(true);
         }
+        dispatch( { type : types.SET_JOURNAL_NO_REQUEST, 
+            journalNo: id.data.journalNo,
+        });
     };
 
 
@@ -316,6 +317,7 @@ const AddJournal = ({ slipNo, flag , setFlag , batchArray , setBatchArray , stat
             <AccountDialog open={accountDialogOpen} onClose={handleClose} />
             <BalanceDialog open={balanceDialogOpen} onClose={handleClose} />
             <CustomerDialog open={customerDialogOpen} onClose={handleClose} />
+            <JournalDetailDialog open={journalDetailDialogOpen} onClose={handleClose} />
         </div>
     );
 };

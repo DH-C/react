@@ -15,7 +15,7 @@ import {makeStyles,
     Typography,
   } from "@material-ui/core";
 
-const AddSlip = ({ headInfo, setSlipNo, today, setFlag , flag  , setBatchArray , setStatusFlag}) => {
+const AddSlip = ({ headInfo, setSlipNo, today, setFlag , flag  , setBatchArray }) => {
 
 const classes = useStyles();  // 스타일 먹임
 
@@ -87,11 +87,6 @@ const getSlipList = async () => {
         // setData(response.data);
         setSlipFlag(true);       
     }
-    if(headInfo.slipStatus==="미결"){  
-        setStatusFlag(false);
-        return;
-    }
-    setStatusFlag(true);
     
 };   // 전표조회 버튼 클릭했을 때 파라미터 가져가서 전표 데이터 들고와서 setData 해줌.
 
