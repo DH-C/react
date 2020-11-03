@@ -1,6 +1,7 @@
 package kr.co.seoulit.erp.acc.account.base.serviceFacade;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import kr.co.seoulit.erp.acc.account.base.applicationService.AccountApplicationS
 import kr.co.seoulit.erp.acc.account.base.to.AccountBean;
 import kr.co.seoulit.erp.acc.account.base.to.AccountCodeBean;
 import kr.co.seoulit.erp.acc.account.base.to.AccountControlBean;
+import kr.co.seoulit.erp.acc.account.base.to.CustomerBean;
 import kr.co.seoulit.erp.acc.account.base.applicationService.AccountApplicationServiceImpl;
 import kr.co.seoulit.erp.acc.account.base.serviceFacade.AccountServiceFacade;
 import kr.co.seoulit.erp.acc.account.base.serviceFacade.AccountServiceFacadeImpl;
@@ -66,5 +68,26 @@ public class AccountServiceFacadeImpl implements AccountServiceFacade{
 	public List<AccountCodeBean> getAccountList() {
 		return accountApplicationService.getAccountList();
 	}
-
+    //=====================================  2020-08-25 계정별 원장 조편백   시작 ====================================
+	@Override
+	public HashMap<String, Object> getLedgerbyAccountInfo(String accountCode, String startDate, String endDate) {
+		
+		return accountApplicationService.getLedgerbyAccountInfo(accountCode, startDate,endDate);
+	}
+	//=====================================  2020-08-25 계정별 원장 조편백   끝 =======================================
+	
+    //=====================================  2020-09-01 거래처관리   조편백   시작 ======================================
+	@Override
+	public List<CustomerBean> getCustomerList(){
+		return accountApplicationService.getCustomerList();
+	}
+	@Override
+	public void deleteNormalCustormer(String customerCode ) {
+		 accountApplicationService.deleteNormalCustormer(customerCode);	 
+	}
+	@Override
+	public void batchCustormerProcess(HashMap<String, ArrayList<CustomerBean>> customerList) {
+		accountApplicationService.batchCustormerProcess(customerList);	
+	}
+	//=====================================  2020-09-01 거래처관리  조편백   끝 ========================================
 }

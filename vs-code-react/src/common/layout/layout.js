@@ -62,10 +62,18 @@ function Layout(props) {
             {/* 계정과목 */}
             <Route
               exact
-              path="/app/acc/base/accountForm"
+              path="/app/acc/account/accountForm"
               component={account.AccountForm}
             />{" "}
             {/* 거래처원장 */}
+            {/*********************************** 2020-08-25 조편백 추가 **********************************/}
+            {/* 계정별원장 */}
+            <Route
+              exact
+              path="/app/acc/statement/AccountLedger"
+              component={account.AccountLedger}
+            />{" "}
+            {/*********************************** 2020-08-25 조편백 끝 ***********************************/} 
             <Route
               exact
               path="/app/acc/statement/financialPosition"
@@ -109,81 +117,141 @@ function Layout(props) {
               component={account.DetailTrialBalance}
             />{" "}
             {/* ///////////////////////// 2020-08-24 김진호 끝  /////////////////////////// */}
+             {/*********************************** 2020-08-31 조편백 추가 **********************************/}
+            {/* 거래처관리 */}
+            <Route
+              exact
+              path="/app/acc/company/WorkplaceManagement"
+              component={account.WorkplaceManagement}
+            />{" "}
+            {/*********************************** 2020-08-31 조편백 끝 ***********************************/}
 
 
 
+            {/* ================인 사=============== */}
+            {/*---------------인사관리----------------*/}
 
-            {/* 인 사 */}
-            {/* 인사관리 */}
+            {/***   사원등록*/}
             <Route
               exact
               path="/app/hr/emp/empDetailedView"
               component={hr.EmpDetailedContainer}
             />{" "}
-            {/* 사원상세조회 */}
+            {/*** 사원상세조회 */}
             <Route
               exact
               path="/app/hr/emp/empRegist"
               component={hr.EmpRegist}
             />
-            {/*  사원등록*/}
-            {/* 사원메뉴 */}
+                        
+            {/*------------- 사원메뉴--------------- */}
+
+            {/* 일근태기록조회 */}{/************************** 일근태기록조회 _재영 _20.08.26 */}
             <Route
               exact
               path="/app/hr/attendance/dayAttendance"
               component={hr.DayAttendance}
             />{" "}
-            {/* 일근태조회/신청 */}
+            {/************************** 일근태기록조회 _재영 _20.08.26 */}
+            {/* 근태외신청/조회 */}{/************************** 근태외신청/조회 시작 _준서 _20.08.25 */}
             <Route
               exact
               path="/app/hr/attendance/restAttendance"
               component={hr.RestAttendance}
             />{" "}
-            {/* 일근태조회/신청 */}
-            {/* 근태관리 */}
+            {/************************** 근태외신청/조회 종료 _준서 _20.08.25 */}
+            {/* 휴가 신청/조회 */}
+            {/************************** 휴가 신청/조회 시작 _재영 _20.08.31 */}
+            <Route
+              exact
+              path="/app/hr/attendance/break"
+              component={hr.Break}
+            />{" "}
+            {/************************** 휴가 신청/조회 종료 _재영 _20.08.31 */}     
+            {/* 출장/교육 신청 */}{/************************** 출장/교육 신청 시작 2020-08-31 손유찬 */}
+            <Route
+              exact
+              path="/app/hr/attendance/travel"
+              component={hr.Travel}
+            />{" "}
+            {/************************** 출장/교육 신청 시작 2020-08-31 손유찬 *************************/}   
+            {/* 초과근무 신청 */}{/************************** 초과근무 신청 시작 2020-08-31 손유찬 */}
+            <Route
+              exact
+              path="/app/hr/attendance/overWork"
+              component={hr.OverWork}
+            />{" "}
+            {/************************** 초과근무 신청 시작 2020-08-31 손유찬 *************************/}
+  
+
+
+            {/*------------ 근태관리--------------- */}
+
+             {/************************** 일근태관리 _재영 _20.08.21 */}
             <Route
               exact
               path="/app/hr/attendance/dayAttendanceManage"
               component={hr.DayAttdManageContainer}
             />{" "}
-            {/* 일근태관리 */}
+              {/************************** 일근태관리 _재영 _20.08.21 */}
+            {/************************** 월근태관리 _재영 _20.08.23 */}
             <Route
               exact
               path="/app/hr/attendance/monthAttendanceManage"
               component={hr.MonthAttdManageContainer}
             />{" "}
-            {/* 월근태관리 */}
+           {/************************** 월근태관리 _재영 _20.08.23 */}            
+           {/************************** 결재승인관리 시작 _준서 */}
             <Route
               exact
-              path="/app/hr/attendance/monthAttendanceManage"
-              component={hr.MonthAttdManageContainer}
+              path="/app/hr/attendance/attendanceApploval"
+              component={hr.AttendanceApploval}
             />{" "}
+            {/************************** 결재승인관리 종료 _준서 */}
+
            
-            {/* 급여조회 */}
-            {/* 월급여 조회 */}
-            {/*******************2020-08-20 손유찬*************************/}
+            {/*---------------- 급여조회 ----------------*/}
+            
+            {/**  월급여 조회 */}
+            {/*******************2020-08-20 손유찬 시작*************************/}
             <Route
               exact
               path="/app/hr/Salary/monthSalary"
               component={hr.MonthSalaryManage}
             />{" "}
-            {/*******************2020-08-20 손유찬*************************/}
-            {/* 급여관리 */}
-            {/* 월급여마감 */}
+            {/*******************2020-08-20 손유찬 종료*************************/}
+
+
+            {/*----------------- 급여관리---------------- */}
+            
+            {/* 급여기준관리  */}{/*******************2020-08-26 손유찬 시작************************/}
             <Route
               exact
-              path="/app/hr/salary/closeSalary"
-              component={hr.CloseSalaryContainer}
+              path="/app/hr/salary/baseSalaryManage"
+              component={hr.BaseSalaryManage}
             />{" "}
-            {/* 초과수당관리 */}
-            {/*******************2020-08-22 손유찬*************************/}
+            {/*******************2020-08-26 손유찬 종료*************************/}
+            {/* 공제기준관리 */}{/*******************2020-08-26 손유찬 시작*************************/}
+            <Route
+              exact
+              path="/app/hr/salary/baseDeductionManage"
+              component={hr.BaseDeductionManage}
+            />{" "}
+            {/*******************2020-08-26 손유찬 종료*************************/}
+            {/* 초과수당관리 */}{/*******************2020-08-22 손유찬 시작*************************/}
             <Route
               exact
               path="/app/hr/salary/baseExtSalManage"
               component={hr.BaseExtSalManage}
             />{" "}
-            {/*******************2020-08-22 손유찬*************************/}
-
+            {/*******************2020-08-22 손유찬 종료*************************/}
+            {/** 월급여마감 */}{/*******************2020-08-22 손유찬 시작*************************/}
+            <Route
+              exact
+              path="/app/hr/salary/closeSalary"
+              component={hr.CloseSalaryContainer}
+            />{" "}
+            {/*******************2020-08-22 손유찬 종료*************************/}
 
 
 

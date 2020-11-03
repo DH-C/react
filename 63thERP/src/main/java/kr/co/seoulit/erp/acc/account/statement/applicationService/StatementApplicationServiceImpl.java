@@ -42,7 +42,8 @@ public class StatementApplicationServiceImpl implements StatementApplicationServ
     	System.out.println("겟토탈  ㅣ:"+toDate);
     	HashMap<String, Object> param =new HashMap<>();
     	param.put("toDate", toDate);
-         totalTrialBalanceDAO.callTotalTrialBalance(param);
+    	List<TotalTrialBalanceBean> ttbb= totalTrialBalanceDAO.callTotalTrialBalance(param);
+         System.out.println("eeee : "+ttbb);
          return param;
         
     }

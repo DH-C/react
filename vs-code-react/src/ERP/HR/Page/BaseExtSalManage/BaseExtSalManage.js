@@ -1,4 +1,4 @@
-//**************************2020-08-20 63기 손유찬 ********************************* 
+//****************************************************2020-08-26 63기 손유찬 ********************************* **********************
 
 import React, { useState, useEffect, useCallback } from "react";
 import { AgGridReact } from "ag-grid-react";
@@ -9,56 +9,76 @@ import Button from "@material-ui/core/Button";
 import { FormControl,AppBar,Toolbar,Typography,} from "@material-ui/core";
 import InputIcon from "@material-ui/icons/Input";
 
-
 const BaseExtSalManage = () => {
-  
-  const [dataList, setDataList] = useState([]);
-  const [data, setData] = useState("");
-  const [gridEvent, setGridEvent] = useState();
 
-  useEffect(() => {
-    axios
-      .get(
-        "http://localhost:8282/hr/salary/baseExtSalManage.do",
-        
-      )
-      .then(response => {
-        console.log("리스펀스 ", response);
-        setDataList(response.data.baseExtSalList);
-        console.log(dataList);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  }, []);
+    const [dataList, setDataList] = useState([]);
+    const [data, setData] = useState("");
+    const [gridEvent, setGridEvent] = useState();
 
-  const onRowSelected = event => {
+    useEffect(() => {
+        axios
+            .get("http://localhost:8282/hr/salary/baseExtSalManage.do",)
+            .then(response => {
+                console.log("리스펀스 ", response);
+                setDataList(response.data.baseExtSalList);
+                console.log(dataList);
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    }, []);
 
-      let list = [];
-      list.push(event.api.getSelectedRows());
-      setData(list[0]);
-      console.log("온셀로우 이벤트 "+ data + list[0]);
-    
-  };
+//수정된 값을 담을 배열
+let list = [];
 
+//콘솔에 찍어보려고 선언한 
+let count = 0; 
 
-/* 
-  const onUpdate = event => {
-    event.api.setRowData(dataList)
-    const selectedNodes = event.Api.getSelectedRows()
-   // const selectedData = selectedNodes.map( node => node.data )
-   // const selectedDataStringPresentation = selectedData.map( node => node.make + ' ' + node.model).join(', ')
-  //  alert("Selected nodes:"+selectedDataStringPresentation)
-  };
- */
-  
+//그리드 수정이 끝난후 발생하는 이벤트의 콜백메서드
+function CellEditingStopped(row) {
+    row.data.status = "update"
+    list.push(row.data);
+console.log("이건 로우 데이타");
+  console.log(row.data);
+  console.log("list 갯수 "+count);
+  console.log(list[count].extSalCode);
+  console.log(list[count].extSalName);
+  console.log(list[count].ratio);
+  console.log(list[count].status); 
+    count++;
+};
+
+//수정 버튼 이벤트
+const updateOnClick = event => {
+
+    if (list) {
+        console.log("온셀로우 이벤트 " + list);
+        axios.post(
+            "http://localhost:8282/hr/salary/baseExtSalManage.do",
+            {
+                baseExtSalList: list
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            },
+
+        );
+        alert("성공적으로 수정 되었습니다.");
+
+    } else 
+        alert("수정 된 내역이 없습니다.");
+    }
+;
+
 
   //AG 그리드의 헤드
   const state = {
     columnDefs: [
-      { headerName: "코드", field: "extSalCode", },
-      { headerName: "이름", field: "extSalName", editable:true},
-      { headerName: "배수", field: "ratio", editable:true},
+      { headerName: "초과수당 코드", field: "extSalCode", },
+      { headerName: "초과수당명", field: "extSalName",},
+      { headerName: "초과수당 배수", field: "ratio", editable:true},
 
     ],
     rowData: dataList,
@@ -67,8 +87,7 @@ const BaseExtSalManage = () => {
 
   return (
     console.log("콘솔임", dataList),
-    (
-      <div>
+    (<div>
           <div>
           <AppBar position="relative">
             <Toolbar>
@@ -78,11 +97,11 @@ const BaseExtSalManage = () => {
         </div>
         <div>
         <FormControl style={{ minWidth: "410px" }}></FormControl>
-        <FormControl style={{ minWidth: "200px" }}>
-            
-          </FormControl>
+        <FormControl style={{ minWidth: "200px" }}></FormControl>
         </div>
+
         <br />
+        
         <div
           className="ag-theme-balham"
           style={{
@@ -94,23 +113,22 @@ const BaseExtSalManage = () => {
          <AgGridReact
             columnDefs={state.columnDefs}
             rowData={state.rowData}
-            onCellEditingStopped={onRowSelected}
+            onCellEditingStopped={CellEditingStopped}
             onGridReady={event => {
               event.api.sizeColumnsToFit();
               setGridEvent(event);
             }}
           ></AgGridReact>
+          <br/>
         </div>
-        <Button
-        variant="contained"
-        color="primary"
-        size="large"
-        onClick={onRowSelected}
-        startIcon={<InputIcon />}
-      >
-        수정
-      </Button>
+        <FormControl style={{ minWidth: "200px" }}/>
+        <FormControl style={{ minWidth: "200px" }}>
+           <Button
+            variant="contained"  color="primary"  size="large" onClick={updateOnClick}  startIcon={<InputIcon />} >  수정
+           </Button>
+      </FormControl>
       </div>
+      
     )
   );
 };

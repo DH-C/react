@@ -11,15 +11,27 @@ const initialState = {
   journalFormList: [],
   error: "",
   periodNo: "",
+  journalDetailList: "",
   slipNo: "",
   cashJournalList: [], //********************************** 2020-08-24 정대현 추가 **********************************
   detailTrialBalanceList: [], //********************************** 2020-08-24 김진호 추가 **********************************
   gridRowJson: [], //********************************** 2020-08-24 조편백 추가 **********************************
+  IncomeList: [], //********************************** 2020-08-31 조편백 추가 ********************************** 
 };
 
 const AccReducer = (state = initialState, action) => {
   switch (action.type) {
     // 기수번호 조회
+    case types.SET_JOURNAL_NO_SUCCESS:
+      return {
+        ...state,
+        journalDetailList: action.data,
+      };
+    case types.SET_JOURNAL_NO_FAILURE:
+      return {
+        ...state,
+        journalDetailList: action.data,
+      };
     case types.SEARCH_PERIOD_NO_SUCCESS:
       return {
         ...state,
@@ -113,7 +125,6 @@ const AccReducer = (state = initialState, action) => {
         ...state,
         error: action.error,
       };
-
     // 전표승인  (실패)
     case types.UPDATE_SLIP_FAILURE:
       return {
@@ -175,7 +186,7 @@ const AccReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        data: action.data.gridRowJson,
+        IncomeList: action.data.gridRowJson,
       };
     case types.SEARCH_INCOME_FAILURE:
       return {
@@ -210,6 +221,33 @@ const AccReducer = (state = initialState, action) => {
         error: action.error,
       };
     //********************************** 2020-08-24 김진호 끝 **********************************
+    //========================================= 2020-08-25 계정별원장 조편백  시작 =============================
+    case types.SEARCH_ACCOUN_TINFO_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case types.SEARCH_ACCOUN_TINFO_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        data: action.data.gridRowJson,
+      };
+    case types.SEARCH_ACCOUN_TINFO_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.error,
+      };
+    //========================================= 2020-08-25 계정별원장 조편백  끝  ================================
+      //========================================= 2020-09-01 거래처 관리 조편백  시작 =============================
+
+    case types.BATCH_ACCOUNT_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+      };
+    //========================================= 2020-09-01 거래처 관리 조편백  끝  ================================
     default:
       return { ...state };
   }

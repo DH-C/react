@@ -1,11 +1,13 @@
 package kr.co.seoulit.erp.acc.account.base.serviceFacade;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import kr.co.seoulit.erp.acc.account.base.to.AccountBean;
 import kr.co.seoulit.erp.acc.account.base.to.AccountCodeBean;
 import kr.co.seoulit.erp.acc.account.base.to.AccountControlBean;
+import kr.co.seoulit.erp.acc.account.base.to.CustomerBean;
 
 public interface AccountServiceFacade {
 
@@ -24,4 +26,18 @@ public interface AccountServiceFacade {
     public String findPeriodNo(String toDay);
 
 	public List<AccountCodeBean> getAccountList();
+
+    //=====================================  2020-08-25 계정별 원장 조편백   시작 ====================================
+    public HashMap<String,Object> getLedgerbyAccountInfo(String accountCode, String startDate, String endDate);
+    //=====================================  2020-08-25 계정별 원장 조편백   끝 ====================================
+    
+    //=====================================  2020-09-01 거래처 관리  조편백   시작 ====================================
+    public List<CustomerBean> getCustomerList();
+    
+    public void deleteNormalCustormer(String customerCode );
+    
+    public void batchCustormerProcess(HashMap<String, ArrayList<CustomerBean>> customerList);
+    //=====================================  2020-09-01 거래처 관리  조편백   끝 ====================================
+    
 }
+

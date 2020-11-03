@@ -9,13 +9,12 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-import List from '@material-ui/core/List';
 import {FormControlLabel,RadioGroup,} from "@material-ui/core";
 
 import "ag-grid-community/dist/styles/ag-grid.css";
 import axios from "axios";
 
-//================================================================2020-08-24 진형욱 MPS Page 수정 ================================================================= 
+//================================================================2020-08-28 진형욱 MPS Page 수정 ================================================================= 
 const useStyles = makeStyles(theme => ({
   btnSearch: {
     fontSize: "0.7rem",
@@ -81,46 +80,10 @@ const gridStyle = {
   backgroundColor: "whiteSmoke",
 };
 
-const headerName = [
-    { headerName: '', checkboxSelection: true, width: 70, headerCheckboxSelection: true },
-    { headerName: "주생산계획번호", field: "mpsNo", width: 140},
-    { headerName: "계획구분", field: "mpsPlanClassification", width: 140},
-    { headerName: "수주상세일련번호", field: "contractDetailNo", width: 140 },
-    { headerName: "판매계획일련번호", field: "salesPlanNo", width: 140},
-    { headerName: "품목코드", field: "itemCode", width: 140 },
-    { headerName: "품목명", field: "itemName", width: 140},
-    { headerName: "단위", field: "unitOfMps", minWidth: 70},//hide
-    { headerName: "계획일자", field: "mpsPlanDate", minWidth: 90 },//hide
-    { headerName: "계획수량", field: "mpsPlanAmount", width: 140},
-    { headerName: "납기일", field: "dueDateOfMps",width: 140, hide: true },
-    { headerName: "예정마감일자", field: "scheduledEndDate", width: 140 },
-    { headerName: "MRP 적용상태", field: "mrpApplyStatus", width: 140, hide: true},
-    { headerName: "비고", field: "description", width: 140, hide: true},
-];
+const dateBtn = () => {
+  alert("BUTTON CLICKEFD");
+};
 
-const dialogHeaderName = [//수주상세 dialog창
-    { headerName: "MPS 등록", field: "contractDetailNo", width: 140},
-    { headerName: "수주상세일련번호", field: "contractType", width: 140},
-    { headerName: "수주유형", field: "planClassification", width: 140},
-    { headerName: "수주일자", field: "contractDate", width: 140},
-    { headerName: "견적수량", field: "estimateAmount", width: 140},
-    { headerName: "초기납품내역", field: "stockAmountUse", width: 140},
-    { headerName: "제작수량", field: "productionRequirement", width: 140},
-    { headerName: "계획일자", field: "mpsPlanDate", width: 140 ,editable: true,
-                  cellEditor: 'datePicker',
-    },
-    { headerName: "출하예정일", field: "scheduledEndDate", width: 140},
-    { headerName: "납기일", field: "dueDateOfContract", width: 140},
-    { headerName: "거래처코드", field: "customerCode", width: 140},
-    { headerName: "품목코드", field: "itemCode", width: 140},
-    { headerName: "품목명", field: "itemName", width: 140},
-    { headerName: "단위", field: "unitOfContract", width: 140},
-    { headerName: "비고", field: "description", width: 140},
-];
-// var gridOpt = useStyles.getDefaultGridOpt(dialogHeaderName);
-//             gridOpt.components = {
-//                 datePicker: getDatePicker() // util에서 확인 
-//             };
 const MpsRegister = ({ estimateNo, setEstimateNo }) => {
   const classes = useStyles();
   const single = "single";
@@ -132,6 +95,7 @@ const MpsRegister = ({ estimateNo, setEstimateNo }) => {
   const [DendDate, setDendDate] = useState("");
   const [rowData, setRowData] = useState("");
   const [DrowData, setDrowData] = useState("");
+  const [D1rowData, setD1rowData] = useState("");
   const [radioCheck, setRadioCheck] = useState("");
   const [DradioCheck, setDradioCheck] = useState("");
   const { title }= "기간조회";
@@ -143,7 +107,6 @@ const MpsRegister = ({ estimateNo, setEstimateNo }) => {
     console.log("estimateGridApi >>>", estimateGridApi);
     return estimateGridApi;
   }
-
   const startDateChange = e => {
     //  console.log("startDateChange() 호출 - e.target.value -->", e.target.value);
 
@@ -245,7 +208,30 @@ const MpsRegister = ({ estimateNo, setEstimateNo }) => {
           });
   };
 
+  const DinsertMPSBtn = e => {// 다이알로그에있는 MPS등록 버튼
+    console.log("===============수주상세 MPS등록 Dialog에 MPS등록버튼==============");
 
+    let url1 = "http://localhost:8282/logi/production/convertContractDetailToMps.do";
+    let MPSVal = JSON.stringify(D1rowData[0]);
+    
+    console.log("다얄로그 해당행의 값:::::::::",MPSVal);
+    
+   // alert("DrowData ::::::",JSON.stringify(D1rowData[0]));
+    const getData = async () => 
+        await axios.post(url1,{
+              batchList: MPSVal
+            
+          });
+
+          getData()
+          .then(response => {
+            console.log("MPS 등록완료");
+            alert("MPS등록 완료");
+          })
+          .catch(e => {
+            console.log("MPS조회하다 발생한 에러 >> ", e,"연결할주소::::::",url1);
+          });
+  };
 
 
 const [contractDetailOpen, setContractDetailOpen] =useState(false);
@@ -282,6 +268,53 @@ const dialogRadioOnClick =(e) =>{
     console.log("다얄로그 라디오에 찍힌 값은 무엇일까>!>!?!?!?!?",e.currentTarget.value);
     setDradioCheck(e.currentTarget.value);
 };    
+
+const onRowSelected = event => {
+  console.log("온셀로우 이벤트 ", event);
+    let list = [];
+    list.push(event.api.getSelectedRows());
+    setD1rowData(list[0]);
+};
+
+const headerName = [
+  { headerName: '', checkboxSelection: true, width: 70, headerCheckboxSelection: true },
+  { headerName: "주생산계획번호", field: "mpsNo", width: 140},
+  { headerName: "계획구분", field: "mpsPlanClassification", width: 140},
+  { headerName: "수주상세일련번호", field: "contractDetailNo", width: 140 },
+  { headerName: "판매계획일련번호", field: "salesPlanNo", width: 140},
+  { headerName: "품목코드", field: "itemCode", width: 140 },
+  { headerName: "품목명", field: "itemName", width: 140},
+  { headerName: "단위", field: "unitOfMps", minWidth: 70},//hide
+  { headerName: "계획일자", field: "mpsPlanDate", minWidth: 90 },//hide
+  { headerName: "계획수량", field: "mpsPlanAmount", width: 140},
+  { headerName: "납기일", field: "dueDateOfMps",width: 140, hide: true },
+  { headerName: "예정마감일자", field: "scheduledEndDate", width: 140 },
+  { headerName: "MRP 적용상태", field: "mrpApplyStatus", width: 140, hide: true},
+  { headerName: "비고", field: "description", width: 140, hide: true},
+];
+
+const dialogHeaderName = [//수주상세 dialog창
+  { headerName: '', checkboxSelection: true, width: 70, headerCheckboxSelection: true },
+  { headerName: "MPS 등록", field: "contractDetailNo", width: 140},
+  { headerName: "수주상세일련번호", field: "contractType", width: 140},
+  { headerName: "수주유형", field: "planClassification", width: 140},
+  { headerName: "수주일자", field: "contractDate", width: 140},
+  { headerName: "견적수량", field: "estimateAmount", width: 140},
+  { headerName: "초기납품내역", field: "stockAmountUse", width: 140},
+  { headerName: "제작수량", field: "productionRequirement", width: 140},
+  { headerName: "계획일자", field: "mpsPlanDate", width: 140 ,
+                cellRenderer : function(params){
+                    return "<div><Button className={classes.btnSearch} onClick={dateBtn}> MPS 조회 </Button></div>";
+                }
+  },
+  { headerName: "출하예정일", field: "scheduledEndDate", width: 140},
+  { headerName: "납기일", field: "dueDateOfContract", width: 140},
+  { headerName: "거래처코드", field: "customerCode", width: 140},
+  { headerName: "품목코드", field: "itemCode", width: 140},
+  { headerName: "품목명", field: "itemName", width: 140},
+  { headerName: "단위", field: "unitOfContract", width: 140},
+  { headerName: "비고", field: "description", width: 140},
+];
 
   return (
     <>
@@ -358,7 +391,6 @@ const dialogRadioOnClick =(e) =>{
                     <DialogTitle id="simple-dialog-title">수주 상세에서 MPS등록</DialogTitle>
                     <DialogContent>
                         <RadioGroup
-                            row
                             aria-label="position"
                             onChange={dialogRadioOnClick}
                         >
@@ -400,14 +432,19 @@ const dialogRadioOnClick =(e) =>{
                             </Button>
                             <br />
                         </fieldset>
+                        <Button className={classes.btnSearch} onClick={DinsertMPSBtn}>
+                              선택한 MPS등록
+                        </Button>
                         </RadioGroup>
-                        <div className={"ag-theme-material"} style={gridFrameStyle}>
+                        <div id="Dgrid" className={"ag-theme-material"} style={gridFrameStyle}>
                             <AgGridReact
                                 onGridReady={gridReady}
                                 columnDefs={dialogHeaderName}
                                 style={gridStyle}
-                                rowSelection={single}
+                                rowSelection='multiple'
                                 rowData={DrowData}
+                                setPinnedTopRowData={DrowData}
+                                onRowSelected={onRowSelected}
                             />
                         </div>
                     </DialogContent>
@@ -422,4 +459,4 @@ const dialogRadioOnClick =(e) =>{
 };
 
 export default MpsRegister;
-//================================================================2020-08-24 진형욱 MPS Page 수정 =================================================================
+//================================================================2020-08-28 진형욱 MPS Page 수정 =================================================================

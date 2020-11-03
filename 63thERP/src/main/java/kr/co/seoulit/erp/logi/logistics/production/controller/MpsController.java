@@ -1,7 +1,7 @@
-//hoxy ㅁㄴㅇㄹㄴㅁㅇㄹㄴㅁㅇㄹfxxking
 package kr.co.seoulit.erp.logi.logistics.production.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +11,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import kr.co.seoulit.erp.logi.logistics.production.serviceFacade.ProductionServiceFacade;
 
 import kr.co.seoulit.erp.logi.logistics.production.to.ContractDetailInMpsAvailableTO;
@@ -27,8 +31,10 @@ public class MpsController {
 
 	
 	private ModelMap modelMap = new ModelMap();
+	
+	private Gson gson = new Gson();
 
-	//2020-08-24 진형욱 메서드 수정::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	//2020-08-28 진형욱 메서드 수정::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	@RequestMapping("/searchMpsInfo.do")
 	public ModelMap searchMpsInfo(HttpServletRequest request, HttpServletResponse response) {
 
@@ -108,20 +114,18 @@ public class MpsController {
 		return modelMap;
 	}
 
-	@RequestMapping("/convertContractDetailToMps.do")
+	@RequestMapping("/convertContractDetailToMps.do") //mps등록
 	public ModelMap convertContractDetailToMps(HttpServletRequest request, HttpServletResponse response) {
 
-//		String batchList = request.getParameter("batchList");
-//		ArrayList<ContractDetailInMpsAvailableTO> contractDetailInMpsAvailableList = gson.fromJson(batchList,
-//				new TypeToken<ArrayList<ContractDetailInMpsAvailableTO>>() {
-//				}.getType());
+		System.out.println(":::::::::::::::MPS등록 메서드 들어옴:::::::::::::::");
+		String batchList = request.getParameter("batchList");
+		System.out.println("MPS등록할 값:::::::::::::::"+batchList);
+		ArrayList<ContractDetailInMpsAvailableTO> contractDetailInMpsAvailableList = gson.fromJson(batchList, new TypeToken<ContractDetailInMpsAvailableTO>(){}.getType());
+	try {
+			HashMap<String, Object> resultMap = productionSF
+					.convertContractDetailToMps(contractDetailInMpsAvailableList);
 
-		try {
-
-//			HashMap<String, Object> resultMap = productionSF
-//					.convertContractDetailToMps(contractDetailInMpsAvailableList);
-//
-//			modelMap.put("result", resultMap);
+			modelMap.put("result", resultMap);
 			modelMap.put("errorCode", 1);
 			modelMap.put("errorMsg", "�꽦怨�");
 

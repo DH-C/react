@@ -94,7 +94,8 @@
 		AND D.PROCESSING_STATUS IS NOT NULL
 		AND D.OPERATION_COMPLETED_STATUS IS NOT NULL
 	</select>
-
+	
+	<!-- 2020-08-28 selectDeliverableContractListByCustomer 쿼리수정 김태윤 -->
 	<select id="selectDeliverableContractListByCustomer" parameterType="String" resultMap="contractInfoResult">
 
 		WITH CODE_DETAIL_LIST AS
@@ -107,6 +108,7 @@
 		( SELECT * FROM ESTIMATE )
 
 		SELECT
+		DISTINCT
 		T1.CONTRACT_NO,
 		T1.ESTIMATE_NO,
 		T1.CONTRACT_TYPE,

@@ -40,7 +40,6 @@ const SlipHead = ({headInfo,headChange}) => {
         setOpen(true);
     }
 
-
     return (
         <>
             <div align="left" className={classes.root}>

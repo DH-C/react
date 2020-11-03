@@ -83,8 +83,9 @@ const Slip = () => {
                 if(cmptSlipNo === '') return;
                 alert(`일련번호 : ${cmptSlipNo} 가 일괄저장되었습니다. `)
             },[cmptSlipNo]
-        )
-
+    )
+    
+    
     return (
         <>
         <h1>전 표 관 리</h1>

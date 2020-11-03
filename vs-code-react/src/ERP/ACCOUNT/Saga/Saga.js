@@ -194,10 +194,26 @@ function* searchCashJournalList(action) {
 
     yield put({ type: types.SEARCH_CASHJOURNAL_SUCCESS, data });
   } catch (error) {
-    yield put({ type: types.SEARCH_CASHJOURNAL_FAILURE, error });
+    yield put({ type: types.SET_JOURNAL_NO_FAILURE, error });
   }
 }
 //********************************** 2020-08-24 정대현 추가 여기까지**********************************
+
+//********************************** 2020-08-28 정대현 추가 **********************************
+function* getJournalNo(action) {
+  try {
+    const { data } = yield accountApi.get("/account/getJournalDetailList", {
+      params: {
+        journalNo: action.journalNo,
+      },
+    });
+
+    yield put({ type: types.SET_JOURNAL_NO_SUCCESS, data });
+  } catch (error) {
+    yield put({ type: types.SET_JOURNAL_NO_FAILURE, error });
+  }
+}
+//********************************** 2020-08-28 정대현 추가 여기까지**********************************
 
 //********************************** 2020-08-24 김진호 추가 **********************************
 //일(월)계표
@@ -216,6 +232,47 @@ function* searchDetailTrial(action) {
   }
 }
 //********************************** 2020-08-24 김진호 끝 **********************************
+//================================= 2020-08-25 계정별원장 조편백  시작 =====================================
+function* searchAccountInfo(action) {
+  console.log("계정별원장 Saga 실행 : " + JSON.stringify(action));
+  try {
+    const { data } = yield accountApi.get("/account/getLedgerbyAccountInfo", {
+      params: {
+        startDate: action.params.startDate,
+        endDate: action.params.endDate,
+        accountCode: action.params.accountCode,
+      },
+    });
+    yield put({ type: types.SEARCH_ACCOUN_TINFO_SUCCESS, data });
+  } catch (error) {
+    yield put({ type: types.SEARCH_ACCOUN_TINFO_FAILURE, error });
+  }
+}
+//================================== 2020-08-25 계정별원장 조편백  끝 =====================================
+
+//================================== 2020-09-01 거래처 관리 조편백  시작=====================================
+
+function* batchCustormerProcess(action) {
+  console.log("거래처 관리  Saga 실행 : " + JSON.stringify(action.params.customerList));
+  try {
+    if (action.division === "delete") {
+      yield accountApi.get("http://localhost:8282/acc/base/deleteNormalCustormer", {
+        params: { customerCode: action.params.customerCode, },
+      }); console.log(" 삭제 ")
+    } if (action.division === "save") {
+      yield axios.post("http://localhost:8282/acc/base/batchCustormerProcess",
+        { customerList: action.params.customerList, },
+        { headers: { "Content-Type": "application/json" } },
+      );
+      console.log(" 저장 ")
+    }
+  } catch (error) { yield put({ type: types.BATCH_ACCOUNT_FAILURE, error }); }
+}
+//================================== 2020-09-01 거래처 관리 조편백  끝=====================================
+
+
+
+
 
 export default function* AccSaga() {
   yield takeLatest(types.SEARCH_PERIOD_NO_REQUEST, searchPeriodNo);
@@ -233,4 +290,7 @@ export default function* AccSaga() {
   yield takeEvery(types.SEARCH_INCOME_REQUEST, searchIncomeList); //<------------ 2020-08-24 손익계산서 조편백
   yield takeLatest(types.SEARCH_CASHJOURNAL_REQUEST, searchCashJournalList); //*********** 2020-08-24 정대현 추가 **********
   yield takeLatest(types.SEARCH_DETAILTRIAL_REQUEST, searchDetailTrial); // 일(월)계표 2020-08-24 김진호 추가
+  yield takeEvery(types.SEARCH_ACCOUN_TINFO_REQUEST, searchAccountInfo); // <=======  2020-08-25 계정별원장 조편백  =============
+  yield takeEvery(types.SET_JOURNAL_NO_REQUEST, getJournalNo); // //*********** 2020-08-28 정대현 추가 **********
+  yield takeEvery(types.BATCH_ACCOUNT_REQUEST, batchCustormerProcess); // <=======  2020-09-01 거래처관리 조편백  ============= 
 }
